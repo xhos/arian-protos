@@ -24,11 +24,9 @@ service AccountService {
   rpc CheckUserAccountAccess(CheckUserAccountAccessRequest) returns (CheckUserAccountAccessResponse);
   rpc SyncAccountBalances(SyncAccountBalancesRequest) returns (SyncAccountBalancesResponse);
 }
-
 message ListAccountsRequest {
   string user_id = 1; // UUID
 }
-
 message ListAccountsResponse {
   repeated Account accounts = 1;
 }
