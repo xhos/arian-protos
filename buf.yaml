@@ -4,7 +4,7 @@ deps:
   - buf.build/googleapis/googleapis
 
 modules:
-  - path: arian
+  - path: .
     name: buf.build/xhos/arian-protos
 
 lint:

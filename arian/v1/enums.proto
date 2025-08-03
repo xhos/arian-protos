@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package ariand.v1;
+package arian.v1;
 
-option go_package = "ariand/gen/go/ariand/v1;ariandv1";
+option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 // Account types
 enum AccountType {

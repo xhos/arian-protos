@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package ariand.v1;
+package arian.v1;
 
-import "ariand/v1/receipts.proto";
-import "ariand/v1/enums.proto";
+import "arian/v1/receipts.proto";
+import "arian/v1/enums.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "ariand/gen/go/ariand/v1;ariandv1";
+option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 service ReceiptService {
   rpc ListReceipts(ListReceiptsRequest) returns (ListReceiptsResponse);

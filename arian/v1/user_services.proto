@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package ariand.v1;
+package arian.v1;
 
-import "ariand/v1/user.proto";
+import "arian/v1/user.proto";
 
-option go_package = "ariand/gen/go/ariand/v1;ariandv1";
+option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 // User management service
 service UserService {

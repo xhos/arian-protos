@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package ariand.v1;
+package arian.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
 
-option go_package = "ariand/gen/go/ariand/v1;ariandv1";
+option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 // Transaction category
 message Category {
