@@ -45,5 +45,10 @@ buf generate
 to update the submodule to the latest version, run:
 
 ```shell
-git submodule update --remote --merge
+git -C proto fetch origin
+git -C proto checkout main
+git -C proto pull --ff-only
+git add proto
+git commit -m "⬆️ bump proto files"
+git push
 ```
