@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package arian.v1;
+
+import "arian/v1/receipts.proto";
+import "arian/v1/enums.proto";
+
+option go_package = "ariand/gen/go/arian/v1;ariandv1";
+
+service ReceiptParsingService {
+  rpc ParseImage(ParseImageRequest) returns (ParseImageResponse);
+  rpc GetStatus(GetStatusRequest) returns (GetStatusResponse);
+}
+
+message ParseImageRequest {
+  bytes image_data = 1;
+  string content_type = 2;
+  optional ReceiptEngine engine = 3;
+}
+
+message ParseImageResponse {
+  Receipt receipt = 1;
+}
+
+message GetStatusRequest {}
+
+message GetStatusResponse {
+  repeated ProviderStatus providers = 1;
+  string service_version = 2;
+}
+
+message ProviderStatus {
+  string name = 1;
+  string kind = 2;
+  bool available = 3;
+  optional string reason = 4;
+  optional string model = 5;
+}
