@@ -2,12 +2,10 @@ syntax = "proto3";
 
 package arian.v1;
 
-import "arian/v1/enums.proto";
 import "arian/v1/category.proto";
+import "arian/v1/enums.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
-
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 // Financial transaction
 message Transaction {
@@ -44,7 +42,7 @@ message Transaction {
 
   google.protobuf.Timestamp created_at = 18;
   google.protobuf.Timestamp updated_at = 19;
-  
+
   // Additional fields for API responses
   optional Category category = 20;
   optional string account_name = 21;

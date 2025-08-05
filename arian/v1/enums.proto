@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package arian.v1;
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // Account types
 enum AccountType {
   ACCOUNT_UNSPECIFIED = 0;

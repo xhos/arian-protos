@@ -6,8 +6,6 @@ import "arian/v1/category.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 service CategoryService {
   rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse);
   rpc ListCategoriesWithUsage(ListCategoriesWithUsageRequest) returns (ListCategoriesWithUsageResponse);
@@ -60,7 +58,7 @@ message CreateCategoryResponse {
 message UpdateCategoryRequest {
   int64 id = 1;
   google.protobuf.FieldMask update_mask = 2;
-  
+
   optional string slug = 3;
   optional string label = 4;
   optional string color = 5;

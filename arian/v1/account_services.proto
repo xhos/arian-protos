@@ -8,8 +8,6 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // Account management service
 service AccountService {
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse);
@@ -59,7 +57,7 @@ message UpdateAccountRequest {
   string user_id = 1; // UUID (must be owner)
   int64 id = 2;
   google.protobuf.FieldMask update_mask = 3;
-  
+
   // Fields that can be updated
   optional string name = 4;
   optional string bank = 5;

@@ -2,12 +2,10 @@ syntax = "proto3";
 
 package arian.v1;
 
-import "arian/v1/dashboard.proto";
 import "arian/v1/account.proto";
+import "arian/v1/dashboard.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
-
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 service DashboardService {
   rpc GetDashboardSummary(GetDashboardSummaryRequest) returns (GetDashboardSummaryResponse);

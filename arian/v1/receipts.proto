@@ -7,8 +7,6 @@ import "google/protobuf/timestamp.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // Receipt item
 message ReceiptItem {
   int64 id = 1;
@@ -47,10 +45,10 @@ message Receipt {
   // storage
   optional string image_url = 14;
   optional bytes image_sha256 = 15;
-  
+
   // payloads
-  optional string raw_payload = 16;    // JSON
-  optional string canonical_data = 17;  // JSON
+  optional string raw_payload = 16; // JSON
+  optional string canonical_data = 17; // JSON
 
   // timestamps & items
   google.protobuf.Timestamp created_at = 18;

@@ -2,14 +2,12 @@ syntax = "proto3";
 
 package arian.v1;
 
-import "arian/v1/transaction.proto";
-import "arian/v1/enums.proto";
 import "arian/v1/common.proto";
+import "arian/v1/enums.proto";
+import "arian/v1/transaction.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
-
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 service TransactionService {
   rpc ListTransactions(ListTransactionsRequest) returns (ListTransactionsResponse);
@@ -86,7 +84,7 @@ message UpdateTransactionRequest {
   string user_id = 1;
   int64 id = 2;
   google.protobuf.FieldMask update_mask = 3;
-  
+
   optional google.protobuf.Timestamp tx_date = 4;
   optional google.type.Money tx_amount = 5;
   optional TransactionDirection direction = 6;

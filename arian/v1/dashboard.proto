@@ -5,8 +5,6 @@ package arian.v1;
 import "google/type/date.proto";
 import "google/type/money.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // Daily trend data point
 message TrendPoint {
   google.type.Date date = 1; // YYYY-MM-DD
@@ -48,4 +46,3 @@ message TopMerchant {
   google.type.Money total_amount = 3;
   google.type.Money avg_amount = 4;
 }
-

@@ -2,12 +2,10 @@ syntax = "proto3";
 
 package arian.v1;
 
-import "arian/v1/receipts.proto";
 import "arian/v1/enums.proto";
+import "arian/v1/receipts.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
 
 service ReceiptService {
   rpc ListReceipts(ListReceiptsRequest) returns (ListReceiptsResponse);
@@ -19,7 +17,7 @@ service ReceiptService {
   rpc ParseReceipt(ParseReceiptRequest) returns (ParseReceiptResponse);
   rpc GetReceiptsByTransaction(GetReceiptsByTransactionRequest) returns (GetReceiptsByTransactionResponse);
   rpc SearchReceipts(SearchReceiptsRequest) returns (SearchReceiptsResponse);
-  
+
   // Receipt items management
   rpc ListReceiptItems(ListReceiptItemsRequest) returns (ListReceiptItemsResponse);
   rpc GetReceiptItem(GetReceiptItemRequest) returns (GetReceiptItemResponse);
@@ -28,7 +26,7 @@ service ReceiptService {
   rpc DeleteReceiptItem(DeleteReceiptItemRequest) returns (DeleteReceiptItemResponse);
   rpc BulkCreateReceiptItems(BulkCreateReceiptItemsRequest) returns (BulkCreateReceiptItemsResponse);
   rpc DeleteReceiptItemsByReceipt(DeleteReceiptItemsByReceiptRequest) returns (DeleteReceiptItemsByReceiptResponse);
-  
+
   // Utility operations
   rpc GetUnlinkedReceipts(GetUnlinkedReceiptsRequest) returns (GetUnlinkedReceiptsResponse);
   rpc GetReceiptMatchCandidates(GetReceiptMatchCandidatesRequest) returns (GetReceiptMatchCandidatesResponse);
@@ -75,7 +73,7 @@ message UpdateReceiptRequest {
   string user_id = 1;
   int64 id = 2;
   google.protobuf.FieldMask update_mask = 3;
-  
+
   optional string notes = 4;
   optional ReceiptLinkStatus link_status = 5;
   optional ReceiptParseStatus parse_status = 6;
@@ -93,7 +91,6 @@ message DeleteReceiptRequest {
 message DeleteReceiptResponse {
   int64 affected_rows = 1;
 }
-
 
 message ParseReceiptRequest {
   string user_id = 1;

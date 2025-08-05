@@ -5,17 +5,15 @@ package arian.v1;
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // Transaction category
 message Category {
   int64 id = 1;
-  string slug = 2;  // e.g. "food.groceries"
+  string slug = 2; // e.g. "food.groceries"
   string label = 3; // e.g. "Groceries"
   string color = 4; // hex code, e.g. "#FF0000"
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
-  
+
   // Usage statistics (populated in some contexts)
   optional int64 usage_count = 7;
   optional google.type.Money total_amount = 8;

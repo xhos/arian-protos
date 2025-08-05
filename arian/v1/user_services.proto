@@ -4,8 +4,6 @@ package arian.v1;
 
 import "arian/v1/user.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // User management service
 service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
@@ -100,7 +98,6 @@ message CreateCredentialRequest {
 message CreateCredentialResponse {
   UserCredential credential = 1;
 }
-
 
 message DeleteCredentialRequest {
   string id = 1; // UUID

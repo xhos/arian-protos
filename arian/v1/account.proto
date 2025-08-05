@@ -7,8 +7,6 @@ import "arian/v1/user.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // Financial account
 message Account {
   int64 id = 1;
@@ -21,7 +19,7 @@ message Account {
   google.protobuf.Timestamp created_at = 8;
   google.protobuf.Timestamp updated_at = 9;
   optional string alias = 10;
-  
+
   // Additional fields for API responses
   bool is_owner = 11; // true if requesting user is the owner
   optional User owner = 12; // populated in some contexts

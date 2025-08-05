@@ -2,10 +2,8 @@ syntax = "proto3";
 
 package arian.v1;
 
-import "arian/v1/receipts.proto";
 import "arian/v1/enums.proto";
-
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
+import "arian/v1/receipts.proto";
 
 service ReceiptParsingService {
   rpc ParseImage(ParseImageRequest) returns (ParseImageResponse);

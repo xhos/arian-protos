@@ -4,13 +4,11 @@ package arian.v1;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "ariand/gen/go/arian/v1;ariandv1";
-
 // Geographic location
 message Location {
-  double latitude = 1;       // WGS84 decimal degrees
-  double longitude = 2;      // WGS84 decimal degrees
-  string source = 3;         // e.g. "gps", "ip", "manual"
+  double latitude = 1; // WGS84 decimal degrees
+  double longitude = 2; // WGS84 decimal degrees
+  string source = 3; // e.g. "gps", "ip", "manual"
   optional string label = 4; // human-readable place name
 }
 
@@ -22,6 +20,6 @@ message Cursor {
 
 // Time of day for filtering
 message TimeOfDay {
-  int32 hours = 1;   // 0-23
+  int32 hours = 1; // 0-23
   int32 minutes = 2; // 0-59
 }
