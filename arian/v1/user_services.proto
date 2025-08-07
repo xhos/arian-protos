@@ -11,6 +11,7 @@ service UserService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
   rpc UpdateUserDisplayName(UpdateUserDisplayNameRequest) returns (UpdateUserDisplayNameResponse);
+  rpc SetUserDefaultAccount(SetUserDefaultAccountRequest) returns (SetUserDefaultAccountResponse);
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
   rpc CheckUserExists(CheckUserExistsRequest) returns (CheckUserExistsResponse);
@@ -45,6 +46,7 @@ message UpdateUserRequest {
   string id = 1; // UUID
   optional string email = 2;
   optional string display_name = 3;
+  optional int64 default_account_id = 4;
 }
 
 message UpdateUserResponse {
@@ -112,6 +114,15 @@ message UpdateUserDisplayNameRequest {
 }
 
 message UpdateUserDisplayNameResponse {
+  User user = 1;
+}
+
+message SetUserDefaultAccountRequest {
+  string id = 1; // UUID
+  int64 default_account_id = 2;
+}
+
+message SetUserDefaultAccountResponse {
   User user = 1;
 }
 
