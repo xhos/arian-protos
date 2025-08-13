@@ -52,3 +52,15 @@ git add proto
 git commit -m "⬆️ bump proto files"
 git push
 ```
+
+## how to clone a repo that uses this submodule
+
+```shell
+git clone --recurse-submodules <repo-url>
+```
+
+if you forgot to use `--recurse-submodules`, you can run:
+
+```shell
+git submodule update --init --recursive
+```
