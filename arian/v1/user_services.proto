@@ -59,54 +59,7 @@ message DeleteUserRequest {
 
 message DeleteUserResponse {}
 
-// WebAuthn credential management service
-service CredentialService {
-  rpc ListCredentials(ListCredentialsRequest) returns (ListCredentialsResponse);
-  rpc GetCredential(GetCredentialRequest) returns (GetCredentialResponse);
-  rpc GetCredentialByCredentialID(GetCredentialByCredentialIDRequest) returns (GetCredentialByCredentialIDResponse);
-  rpc GetCredentialForUser(GetCredentialForUserRequest) returns (GetCredentialForUserResponse);
-  rpc CreateCredential(CreateCredentialRequest) returns (CreateCredentialResponse);
-  rpc UpdateCredentialSignCountByCredentialID(UpdateCredentialSignCountByCredentialIDRequest) returns (UpdateCredentialSignCountByCredentialIDResponse);
-  rpc DeleteCredential(DeleteCredentialRequest) returns (DeleteCredentialResponse);
-  rpc DeleteAllCredentialsForUser(DeleteAllCredentialsForUserRequest) returns (DeleteAllCredentialsForUserResponse);
-  rpc CountCredentialsForUser(CountCredentialsForUserRequest) returns (CountCredentialsForUserResponse);
-  rpc CheckCredentialExists(CheckCredentialExistsRequest) returns (CheckCredentialExistsResponse);
-}
 
-message ListCredentialsRequest {
-  string user_id = 1; // UUID
-}
-
-message ListCredentialsResponse {
-  repeated UserCredential credentials = 1;
-}
-
-message GetCredentialRequest {
-  string id = 1; // UUID
-  string user_id = 2; // UUID
-}
-
-message GetCredentialResponse {
-  UserCredential credential = 1;
-}
-
-message CreateCredentialRequest {
-  string user_id = 1; // UUID
-  bytes credential_id = 2;
-  bytes public_key = 3;
-  int64 sign_count = 4;
-}
-
-message CreateCredentialResponse {
-  UserCredential credential = 1;
-}
-
-message DeleteCredentialRequest {
-  string id = 1; // UUID
-  string user_id = 2; // UUID
-}
-
-message DeleteCredentialResponse {}
 
 message UpdateUserDisplayNameRequest {
   string id = 1; // UUID
@@ -144,50 +97,3 @@ message CheckUserExistsResponse {
   bool exists = 1;
 }
 
-message GetCredentialByCredentialIDRequest {
-  bytes credential_id = 1;
-}
-
-message GetCredentialByCredentialIDResponse {
-  UserCredential credential = 1;
-}
-
-message GetCredentialForUserRequest {
-  string id = 1; // UUID
-  string user_id = 2; // UUID
-}
-
-message GetCredentialForUserResponse {
-  UserCredential credential = 1;
-}
-
-message UpdateCredentialSignCountByCredentialIDRequest {
-  bytes credential_id = 1;
-  int64 sign_count = 2;
-}
-
-message UpdateCredentialSignCountByCredentialIDResponse {}
-
-message DeleteAllCredentialsForUserRequest {
-  string user_id = 1; // UUID
-}
-
-message DeleteAllCredentialsForUserResponse {
-  int64 affected_rows = 1;
-}
-
-message CountCredentialsForUserRequest {
-  string user_id = 1; // UUID
-}
-
-message CountCredentialsForUserResponse {
-  int64 count = 1;
-}
-
-message CheckCredentialExistsRequest {
-  bytes credential_id = 1;
-}
-
-message CheckCredentialExistsResponse {
-  bool exists = 1;
-}

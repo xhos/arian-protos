@@ -14,12 +14,3 @@ message User {
   google.protobuf.Timestamp updated_at = 6;
 }
 
-// WebAuthn credential
-message UserCredential {
-  string id = 1; // UUID
-  string user_id = 2; // UUID
-  bytes credential_id = 3;
-  bytes public_key = 4;
-  int64 sign_count = 5;
-  google.protobuf.Timestamp created_at = 6;
-}
