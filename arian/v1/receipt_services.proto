@@ -18,7 +18,7 @@ service ReceiptService {
   rpc GetReceiptsByTransaction(GetReceiptsByTransactionRequest) returns (GetReceiptsByTransactionResponse);
   rpc SearchReceipts(SearchReceiptsRequest) returns (SearchReceiptsResponse);
 
-  // Receipt items management
+  // receipt items management
   rpc ListReceiptItems(ListReceiptItemsRequest) returns (ListReceiptItemsResponse);
   rpc GetReceiptItem(GetReceiptItemRequest) returns (GetReceiptItemResponse);
   rpc CreateReceiptItem(CreateReceiptItemRequest) returns (CreateReceiptItemResponse);
@@ -27,7 +27,7 @@ service ReceiptService {
   rpc BulkCreateReceiptItems(BulkCreateReceiptItemsRequest) returns (BulkCreateReceiptItemsResponse);
   rpc DeleteReceiptItemsByReceipt(DeleteReceiptItemsByReceiptRequest) returns (DeleteReceiptItemsByReceiptResponse);
 
-  // Utility operations
+  // utility operations
   rpc GetUnlinkedReceipts(GetUnlinkedReceiptsRequest) returns (GetUnlinkedReceiptsResponse);
   rpc GetReceiptMatchCandidates(GetReceiptMatchCandidatesRequest) returns (GetReceiptMatchCandidatesResponse);
 }
@@ -150,7 +150,6 @@ message CreateReceiptResponse {
   Receipt receipt = 1;
 }
 
-// Receipt items management
 message ListReceiptItemsRequest {
   int64 receipt_id = 1;
 }
@@ -223,7 +222,6 @@ message DeleteReceiptItemsByReceiptResponse {
   int64 affected_rows = 1;
 }
 
-// Utility operations
 message GetUnlinkedReceiptsRequest {
   optional int32 limit = 1;
 }

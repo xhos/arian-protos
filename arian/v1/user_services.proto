@@ -4,7 +4,6 @@ package arian.v1;
 
 import "arian/v1/user.proto";
 
-// User management service
 service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
   rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserByEmailResponse);
@@ -18,7 +17,7 @@ service UserService {
 }
 
 message GetUserRequest {
-string id = 1;
+  string id = 1;
 }
 
 message GetUserResponse {
@@ -60,42 +59,6 @@ message DeleteUserRequest {
 
 message DeleteUserResponse {}
 
-
-message ListCredentialsRequest {
-  string user_id = 1;
-}
-
-message ListCredentialsResponse {
-  repeated UserCredential credentials = 1;
-}
-
-message GetCredentialRequest {
-  string id = 1;
-  string user_id = 2;
-}
-
-message GetCredentialResponse {
-  UserCredential credential = 1;
-}
-
-message CreateCredentialRequest {
-  string user_id = 1;
-  bytes credential_id = 2;
-  bytes public_key = 3;
-  int64 sign_count = 4;
-}
-
-message CreateCredentialResponse {
-  UserCredential credential = 1;
-}
-
-message DeleteCredentialRequest {
-  string id = 1;
-  string user_id = 2;
-}
-
-message DeleteCredentialResponse {}
-
 message UpdateUserDisplayNameRequest {
   string id = 1;
   string display_name = 2;
@@ -129,53 +92,5 @@ message CheckUserExistsRequest {
 }
 
 message CheckUserExistsResponse {
-  bool exists = 1;
-}
-
-message GetCredentialByCredentialIDRequest {
-  bytes credential_id = 1;
-}
-
-message GetCredentialByCredentialIDResponse {
-  UserCredential credential = 1;
-}
-
-message GetCredentialForUserRequest {
-  string id = 1;
-  string user_id = 2;
-}
-
-message GetCredentialForUserResponse {
-  UserCredential credential = 1;
-}
-
-message UpdateCredentialSignCountByCredentialIDRequest {
-  bytes credential_id = 1;
-  int64 sign_count = 2;
-}
-
-message UpdateCredentialSignCountByCredentialIDResponse {}
-
-message DeleteAllCredentialsForUserRequest {
-  string user_id = 1;
-}
-
-message DeleteAllCredentialsForUserResponse {
-  int64 affected_rows = 1;
-}
-
-message CountCredentialsForUserRequest {
-  string user_id = 1;
-}
-
-message CountCredentialsForUserResponse {
-  int64 count = 1;
-}
-
-message CheckCredentialExistsRequest {
-  bytes credential_id = 1;
-}
-
-message CheckCredentialExistsResponse {
   bool exists = 1;
 }

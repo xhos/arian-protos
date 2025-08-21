@@ -5,7 +5,6 @@ package arian.v1;
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
 
-// Transaction category
 message Category {
   int64 id = 1;
   string slug = 2; // e.g. "food.groceries"
@@ -14,7 +13,7 @@ message Category {
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
 
-  // Usage statistics (populated in some contexts)
+  // usage statistics (populated in some contexts)
   optional int64 usage_count = 7;
   optional google.type.Money total_amount = 8;
   optional google.type.Money avg_amount = 9;
@@ -22,21 +21,18 @@ message Category {
   optional google.protobuf.Timestamp last_used = 11;
 }
 
-// Category with usage statistics
 message CategoryWithUsage {
   Category category = 1;
   int64 usage_count = 2;
   google.type.Money total_amount = 3;
 }
 
-// Category with user-specific usage statistics
 message CategoryWithUserUsage {
   Category category = 1;
   int64 user_usage_count = 2;
   google.type.Money user_total_amount = 3;
 }
 
-// Detailed category statistics
 message CategoryStats {
   int64 usage_count = 1;
   google.type.Money total_amount = 2;

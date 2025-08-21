@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package arian.v1;
 
-// Account types
 enum AccountType {
   ACCOUNT_UNSPECIFIED = 0;
   ACCOUNT_CHEQUING = 1;
@@ -12,14 +11,12 @@ enum AccountType {
   ACCOUNT_OTHER = 5;
 }
 
-// Transaction flow direction
 enum TransactionDirection {
   DIRECTION_UNSPECIFIED = 0;
   DIRECTION_INCOMING = 1;
   DIRECTION_OUTGOING = 2;
 }
 
-// How a transaction was categorized
 enum CategorizationStatus {
   CATEGORIZATION_UNSPECIFIED = 0;
   CATEGORIZATION_NONE = 1;
@@ -28,14 +25,12 @@ enum CategorizationStatus {
   CATEGORIZATION_VERIFIED = 4;
 }
 
-// Receipt parsing engine
 enum ReceiptEngine {
   ENGINE_UNSPECIFIED = 0;
   ENGINE_GEMINI = 1;
   ENGINE_LOCAL = 2;
 }
 
-// Receipt parsing status
 enum ReceiptParseStatus {
   PARSE_STATUS_UNSPECIFIED = 0;
   PARSE_STATUS_PENDING = 1;
@@ -43,7 +38,6 @@ enum ReceiptParseStatus {
   PARSE_STATUS_FAILED = 3;
 }
 
-// Receipt linking status
 enum ReceiptLinkStatus {
   LINK_STATUS_UNSPECIFIED = 0;
   LINK_STATUS_UNLINKED = 1;

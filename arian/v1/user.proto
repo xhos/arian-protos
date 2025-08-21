@@ -4,13 +4,11 @@ package arian.v1;
 
 import "google/protobuf/timestamp.proto";
 
-// User account
 message User {
-  string id = 1; // UUID
+  string id = 1;
   string email = 2;
   optional string display_name = 3;
   optional int64 default_account_id = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
 }
-

@@ -7,7 +7,6 @@ import "google/protobuf/timestamp.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
 
-// Receipt item
 message ReceiptItem {
   int64 id = 1;
   int64 receipt_id = 2;
@@ -22,7 +21,6 @@ message ReceiptItem {
   google.protobuf.Timestamp updated_at = 11;
 }
 
-// Receipt
 message Receipt {
   int64 id = 1;
   ReceiptEngine engine = 2;
@@ -56,13 +54,11 @@ message Receipt {
   repeated ReceiptItem items = 20;
 }
 
-// Receipt with match count
 message ReceiptMatchCandidate {
   Receipt receipt = 1;
   int64 potential_matches = 2;
 }
 
-// Receipt summary for listing unlinked receipts
 message ReceiptSummary {
   int64 id = 1;
   optional string merchant = 2;

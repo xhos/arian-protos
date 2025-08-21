@@ -4,7 +4,6 @@ package arian.v1;
 
 import "google/protobuf/timestamp.proto";
 
-// Geographic location
 message Location {
   double latitude = 1; // WGS84 decimal degrees
   double longitude = 2; // WGS84 decimal degrees
@@ -12,13 +11,11 @@ message Location {
   optional string label = 4; // human-readable place name
 }
 
-// Pagination cursor for list operations
 message Cursor {
   google.protobuf.Timestamp date = 1;
   optional int64 id = 2;
 }
 
-// Time of day for filtering
 message TimeOfDay {
   int32 hours = 1; // 0-23
   int32 minutes = 2; // 0-59

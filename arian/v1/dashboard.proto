@@ -5,14 +5,12 @@ package arian.v1;
 import "google/type/date.proto";
 import "google/type/money.proto";
 
-// Daily trend data point
 message TrendPoint {
   google.type.Date date = 1; // YYYY-MM-DD
   google.type.Money income = 2;
   google.type.Money expenses = 3;
 }
 
-// Monthly comparison data
 message MonthlyComparison {
   string month = 1; // YYYY-MM
   google.type.Money income = 2;
@@ -20,7 +18,6 @@ message MonthlyComparison {
   google.type.Money net = 4;
 }
 
-// Dashboard summary statistics
 message DashboardSummary {
   int64 total_accounts = 1;
   int64 total_transactions = 2;
@@ -30,7 +27,6 @@ message DashboardSummary {
   int64 uncategorized_transactions = 6;
 }
 
-// Top spending category
 message TopCategory {
   string slug = 1;
   string label = 2;
@@ -39,7 +35,6 @@ message TopCategory {
   google.type.Money total_amount = 5;
 }
 
-// Top merchant by spending
 message TopMerchant {
   string merchant = 1;
   int64 transaction_count = 2;
