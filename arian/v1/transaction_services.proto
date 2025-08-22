@@ -5,6 +5,7 @@ package arian.v1;
 import "arian/v1/common.proto";
 import "arian/v1/enums.proto";
 import "arian/v1/transaction.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
@@ -28,21 +29,31 @@ service TransactionService {
 }
 
 message ListTransactionsRequest {
-  string user_id = 1;
-  optional int64 account_id = 2;
-  optional int32 limit = 3;
-  optional int32 offset = 4;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  optional int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
+  optional int32 limit = 3 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 1000
+  }];
+  optional int32 offset = 4 [(buf.validate.field).int32.gte = 0];
   optional google.protobuf.Timestamp start_date = 5;
   optional google.protobuf.Timestamp end_date = 6;
   optional Cursor cursor = 7;
   optional google.type.Money amount_min = 8;
   optional google.type.Money amount_max = 9;
-  optional TransactionDirection direction = 10;
-  repeated int64 account_ids = 11;
-  repeated string categories = 12;
-  optional string merchant_query = 13;
-  optional string description_query = 14;
-  optional string currency = 15;
+  optional TransactionDirection direction = 10 [(buf.validate.field).enum.defined_only = true];
+  repeated int64 account_ids = 11 [(buf.validate.field).repeated = {
+    max_items: 50
+  }];
+  repeated string categories = 12 [(buf.validate.field).repeated = {
+    max_items: 20
+  }];
+  optional string merchant_query = 13 [(buf.validate.field).string.max_len = 200];
+  optional string description_query = 14 [(buf.validate.field).string.max_len = 500];
+  optional string currency = 15 [(buf.validate.field).string = {
+    len: 3,
+    pattern: "^[A-Z]{3}$"
+  }];
   optional TimeOfDay time_of_day_start = 16;
   optional TimeOfDay time_of_day_end = 17;
 }
@@ -54,8 +65,8 @@ message ListTransactionsResponse {
 }
 
 message GetTransactionRequest {
-  string user_id = 1;
-  int64 id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message GetTransactionResponse {
@@ -63,17 +74,20 @@ message GetTransactionResponse {
 }
 
 message CreateTransactionRequest {
-  string user_id = 1;
-  int64 account_id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
   google.protobuf.Timestamp tx_date = 3;
   google.type.Money tx_amount = 4;
-  TransactionDirection direction = 5;
-  optional string description = 6;
-  optional string merchant = 7;
-  optional string user_notes = 8;
-  optional int64 category_id = 9;
+  TransactionDirection direction = 5 [(buf.validate.field).enum.defined_only = true];
+  optional string description = 6 [(buf.validate.field).string.max_len = 500];
+  optional string merchant = 7 [(buf.validate.field).string.max_len = 200];
+  optional string user_notes = 8 [(buf.validate.field).string.max_len = 1000];
+  optional int64 category_id = 9 [(buf.validate.field).int64.gt = 0];
   optional google.type.Money foreign_amount = 10;
-  optional double exchange_rate = 11;
+  optional double exchange_rate = 11 [(buf.validate.field).double = {
+    gt: 0,
+    lt: 1000
+  }];
 }
 
 message CreateTransactionResponse {
@@ -81,19 +95,22 @@ message CreateTransactionResponse {
 }
 
 message UpdateTransactionRequest {
-  string user_id = 1;
-  int64 id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
   google.protobuf.FieldMask update_mask = 3;
 
   optional google.protobuf.Timestamp tx_date = 4;
   optional google.type.Money tx_amount = 5;
-  optional TransactionDirection direction = 6;
-  optional string description = 7;
-  optional string merchant = 8;
-  optional string user_notes = 9;
-  optional int64 category_id = 10;
+  optional TransactionDirection direction = 6 [(buf.validate.field).enum.defined_only = true];
+  optional string description = 7 [(buf.validate.field).string.max_len = 500];
+  optional string merchant = 8 [(buf.validate.field).string.max_len = 200];
+  optional string user_notes = 9 [(buf.validate.field).string.max_len = 1000];
+  optional int64 category_id = 10 [(buf.validate.field).int64.gt = 0];
   optional google.type.Money foreign_amount = 11;
-  optional double exchange_rate = 12;
+  optional double exchange_rate = 12 [(buf.validate.field).double = {
+    gt: 0,
+    lt: 1000
+  }];
 }
 
 message UpdateTransactionResponse {
@@ -101,8 +118,8 @@ message UpdateTransactionResponse {
 }
 
 message DeleteTransactionRequest {
-  string user_id = 1;
-  int64 id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message DeleteTransactionResponse {
@@ -110,9 +127,9 @@ message DeleteTransactionResponse {
 }
 
 message CategorizeTransactionRequest {
-  string user_id = 1;
-  int64 transaction_id = 2;
-  int64 category_id = 3;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 transaction_id = 2 [(buf.validate.field).int64.gt = 0];
+  int64 category_id = 3 [(buf.validate.field).int64.gt = 0];
 }
 
 message CategorizeTransactionResponse {
@@ -120,12 +137,18 @@ message CategorizeTransactionResponse {
 }
 
 message SearchTransactionsRequest {
-  string user_id = 1;
-  string query = 2;
-  optional int64 account_id = 3;
-  optional int64 category_id = 4;
-  optional int32 limit = 5;
-  optional int32 offset = 6;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  string query = 2 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 500
+  }];
+  optional int64 account_id = 3 [(buf.validate.field).int64.gt = 0];
+  optional int64 category_id = 4 [(buf.validate.field).int64.gt = 0];
+  optional int32 limit = 5 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 1000
+  }];
+  optional int32 offset = 6 [(buf.validate.field).int32.gte = 0];
 }
 
 message SearchTransactionsResponse {
@@ -134,10 +157,13 @@ message SearchTransactionsResponse {
 }
 
 message GetTransactionsByAccountRequest {
-  string user_id = 1;
-  int64 account_id = 2;
-  optional int32 limit = 3;
-  optional int32 offset = 4;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
+  optional int32 limit = 3 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 1000
+  }];
+  optional int32 offset = 4 [(buf.validate.field).int32.gte = 0];
   optional google.protobuf.Timestamp start_date = 5;
   optional google.protobuf.Timestamp end_date = 6;
   optional Cursor cursor = 7;
@@ -150,10 +176,13 @@ message GetTransactionsByAccountResponse {
 }
 
 message GetUncategorizedTransactionsRequest {
-  string user_id = 1;
-  optional int64 account_id = 2;
-  optional int32 limit = 3;
-  optional int32 offset = 4;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  optional int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
+  optional int32 limit = 3 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 1000
+  }];
+  optional int32 offset = 4 [(buf.validate.field).int32.gte = 0];
   optional Cursor cursor = 5;
 }
 
@@ -164,9 +193,12 @@ message GetUncategorizedTransactionsResponse {
 }
 
 message BulkCategorizeTransactionsRequest {
-  string user_id = 1;
-  repeated int64 transaction_ids = 2;
-  int64 category_id = 3;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  repeated int64 transaction_ids = 2 [(buf.validate.field).repeated = {
+    min_items: 1,
+    max_items: 100
+  }];
+  int64 category_id = 3 [(buf.validate.field).int64.gt = 0];
 }
 
 message BulkCategorizeTransactionsResponse {
@@ -174,8 +206,11 @@ message BulkCategorizeTransactionsResponse {
 }
 
 message BulkDeleteTransactionsRequest {
-  string user_id = 1;
-  repeated int64 transaction_ids = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  repeated int64 transaction_ids = 2 [(buf.validate.field).repeated = {
+    min_items: 1,
+    max_items: 100
+  }];
 }
 
 message BulkDeleteTransactionsResponse {
@@ -183,7 +218,7 @@ message BulkDeleteTransactionsResponse {
 }
 
 message GetTransactionCountByAccountRequest {
-  string user_id = 1;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message GetTransactionCountByAccountResponse {
@@ -191,8 +226,11 @@ message GetTransactionCountByAccountResponse {
 }
 
 message FindCandidateTransactionsRequest {
-  string user_id = 1;
-  string merchant = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  string merchant = 2 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 200
+  }];
   google.protobuf.Timestamp purchase_date = 3;
   google.type.Money total_amount = 4;
 }
@@ -202,8 +240,8 @@ message FindCandidateTransactionsResponse {
 }
 
 message IdentifyMerchantRequest {
-  string user_id = 1;
-  int64 transaction_id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 transaction_id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message IdentifyMerchantResponse {
@@ -211,8 +249,8 @@ message IdentifyMerchantResponse {
 }
 
 message SetTransactionReceiptRequest {
-  int64 transaction_id = 1;
-  int64 receipt_id = 2;
+  int64 transaction_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 receipt_id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message SetTransactionReceiptResponse {

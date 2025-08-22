@@ -3,6 +3,7 @@ syntax = "proto3";
 package arian.v1;
 
 import "arian/v1/category.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -27,9 +28,12 @@ service CategoryService {
 }
 
 message ListCategoriesRequest {
-  optional int32 limit = 1;
-  optional int32 offset = 2;
-  optional string filter = 3;
+  optional int32 limit = 1 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+  optional int32 offset = 2 [(buf.validate.field).int32.gte = 0];
+  optional string filter = 3 [(buf.validate.field).string.max_len = 100];
 }
 
 message ListCategoriesResponse {
@@ -38,7 +42,7 @@ message ListCategoriesResponse {
 }
 
 message GetCategoryRequest {
-  int64 id = 1;
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
 }
 
 message GetCategoryResponse {
@@ -46,9 +50,20 @@ message GetCategoryResponse {
 }
 
 message CreateCategoryRequest {
-  string slug = 1;
-  string label = 2;
-  string color = 3;
+  string slug = 1 [(buf.validate.field).string = {
+    pattern: "^[a-z0-9]+(\\.[a-z0-9]+)*$",
+    min_len: 1,
+    max_len: 50
+  }];
+  string label = 2 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  string color = 3 [(buf.validate.field).string = {
+    pattern: "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$",
+    min_len: 4,
+    max_len: 7
+  }];
 }
 
 message CreateCategoryResponse {
@@ -56,12 +71,23 @@ message CreateCategoryResponse {
 }
 
 message UpdateCategoryRequest {
-  int64 id = 1;
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
   google.protobuf.FieldMask update_mask = 2;
 
-  optional string slug = 3;
-  optional string label = 4;
-  optional string color = 5;
+  optional string slug = 3 [(buf.validate.field).string = {
+    pattern: "^[a-z0-9]+(\\.[a-z0-9]+)*$",
+    min_len: 1,
+    max_len: 50
+  }];
+  optional string label = 4 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  optional string color = 5 [(buf.validate.field).string = {
+    pattern: "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$",
+    min_len: 4,
+    max_len: 7
+  }];
 }
 
 message UpdateCategoryResponse {
@@ -69,7 +95,7 @@ message UpdateCategoryResponse {
 }
 
 message DeleteCategoryRequest {
-  int64 id = 1;
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
 }
 
 message DeleteCategoryResponse {
@@ -77,8 +103,8 @@ message DeleteCategoryResponse {
 }
 
 message GetCategoryUsageStatsRequest {
-  int64 category_id = 1;
-  string user_id = 2;
+  int64 category_id = 1 [(buf.validate.field).int64.gt = 0];
+  string user_id = 2 [(buf.validate.field).string.uuid = true];
   optional google.protobuf.Timestamp start_date = 3;
   optional google.protobuf.Timestamp end_date = 4;
 }
@@ -88,11 +114,14 @@ message GetCategoryUsageStatsResponse {
 }
 
 message GetCategoriesWithStatsRequest {
-  string user_id = 1;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
   optional google.protobuf.Timestamp start_date = 2;
   optional google.protobuf.Timestamp end_date = 3;
-  optional int32 limit = 4;
-  optional int32 offset = 5;
+  optional int32 limit = 4 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+  optional int32 offset = 5 [(buf.validate.field).int32.gte = 0];
 }
 
 message GetCategoriesWithStatsResponse {
@@ -101,9 +130,15 @@ message GetCategoriesWithStatsResponse {
 }
 
 message SearchCategoriesRequest {
-  string query = 1;
-  optional int32 limit = 2;
-  optional int32 offset = 3;
+  string query = 1 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  optional int32 limit = 2 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+  optional int32 offset = 3 [(buf.validate.field).int32.gte = 0];
 }
 
 message SearchCategoriesResponse {
@@ -112,8 +147,11 @@ message SearchCategoriesResponse {
 }
 
 message ListCategoriesWithUsageRequest {
-  optional int32 limit = 1;
-  optional int32 offset = 2;
+  optional int32 limit = 1 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+  optional int32 offset = 2 [(buf.validate.field).int32.gte = 0];
 }
 
 message ListCategoriesWithUsageResponse {
@@ -122,9 +160,12 @@ message ListCategoriesWithUsageResponse {
 }
 
 message ListCategoriesForUserRequest {
-  string user_id = 1;
-  optional int32 limit = 2;
-  optional int32 offset = 3;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  optional int32 limit = 2 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+  optional int32 offset = 3 [(buf.validate.field).int32.gte = 0];
 }
 
 message ListCategoriesForUserResponse {
@@ -133,7 +174,11 @@ message ListCategoriesForUserResponse {
 }
 
 message GetCategoryBySlugRequest {
-  string slug = 1;
+  string slug = 1 [(buf.validate.field).string = {
+    pattern: "^[a-z0-9]+(\\.[a-z0-9]+)*$",
+    min_len: 1,
+    max_len: 50
+  }];
 }
 
 message GetCategoryBySlugResponse {
@@ -141,7 +186,7 @@ message GetCategoryBySlugResponse {
 }
 
 message GetCategoryWithStatsRequest {
-  int64 id = 1;
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
 }
 
 message GetCategoryWithStatsResponse {
@@ -150,7 +195,10 @@ message GetCategoryWithStatsResponse {
 }
 
 message BulkCreateCategoriesRequest {
-  repeated CreateCategoryRequest categories = 1;
+  repeated CreateCategoryRequest categories = 1 [(buf.validate.field).repeated = {
+    min_items: 1,
+    max_items: 50
+  }];
 }
 
 message BulkCreateCategoriesResponse {
@@ -171,10 +219,13 @@ message ListCategorySlugsResponse {
 }
 
 message GetMostUsedCategoriesForUserRequest {
-  string user_id = 1;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
   optional google.protobuf.Timestamp start_date = 2;
   optional google.protobuf.Timestamp end_date = 3;
-  optional int32 limit = 4;
+  optional int32 limit = 4 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
 }
 
 message GetMostUsedCategoriesForUserResponse {

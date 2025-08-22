@@ -4,6 +4,7 @@ package arian.v1;
 
 import "arian/v1/account.proto";
 import "arian/v1/enums.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
@@ -22,7 +23,7 @@ service AccountService {
 }
 
 message ListAccountsRequest {
-  string user_id = 1;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message ListAccountsResponse {
@@ -30,8 +31,8 @@ message ListAccountsResponse {
 }
 
 message GetAccountRequest {
-  string user_id = 1;
-  int64 id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message GetAccountResponse {
@@ -39,11 +40,20 @@ message GetAccountResponse {
 }
 
 message CreateAccountRequest {
-  string user_id = 1;
-  string name = 2;
-  string bank = 3;
-  AccountType type = 4;
-  optional string alias = 5;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  string name = 2 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  string bank = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  AccountType type = 4 [(buf.validate.field).enum.defined_only = true];
+  optional string alias = 5 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
   google.type.Money anchor_balance = 6;
 }
 
@@ -52,15 +62,24 @@ message CreateAccountResponse {
 }
 
 message UpdateAccountRequest {
-  string user_id = 1;
-  int64 id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
   google.protobuf.FieldMask update_mask = 3;
 
   // fields that can be updated
-  optional string name = 4;
-  optional string bank = 5;
-  optional AccountType account_type = 6;
-  optional string alias = 7;
+  optional string name = 4 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  optional string bank = 5 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  optional AccountType account_type = 6 [(buf.validate.field).enum.defined_only = true];
+  optional string alias = 7 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
   optional google.protobuf.Timestamp anchor_date = 8;
   optional google.type.Money anchor_balance = 9;
 }
@@ -70,8 +89,8 @@ message UpdateAccountResponse {
 }
 
 message DeleteAccountRequest {
-  string user_id = 1;
-  int64 id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message DeleteAccountResponse {
@@ -79,7 +98,7 @@ message DeleteAccountResponse {
 }
 
 message SetAccountAnchorRequest {
-  int64 id = 1;
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
   google.type.Money balance = 2;
 }
 
@@ -88,7 +107,7 @@ message SetAccountAnchorResponse {
 }
 
 message GetAccountBalanceRequest {
-  int64 id = 1;
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
 }
 
 message GetAccountBalanceResponse {
@@ -96,7 +115,7 @@ message GetAccountBalanceResponse {
 }
 
 message GetAccountsCountRequest {
-  string user_id = 1;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message GetAccountsCountResponse {
@@ -104,16 +123,19 @@ message GetAccountsCountResponse {
 }
 
 message SyncAccountBalancesRequest {
-  int64 account_id = 1;
+  int64 account_id = 1 [(buf.validate.field).int64.gt = 0];
 }
 
 message SyncAccountBalancesResponse {}
 
 message GetAnchorBalanceRequest {
-  int64 id = 1;
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
 }
 
 message GetAnchorBalanceResponse {
   google.type.Money anchor_balance = 1;
-  string currency = 2;
+  string currency = 2 [(buf.validate.field).string = {
+    len: 3,
+    pattern: "^[A-Z]{3}$"
+  }];
 }

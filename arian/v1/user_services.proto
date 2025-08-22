@@ -3,6 +3,7 @@ syntax = "proto3";
 package arian.v1;
 
 import "arian/v1/user.proto";
+import "buf/validate/validate.proto";
 
 service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
@@ -17,7 +18,7 @@ service UserService {
 }
 
 message GetUserRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message GetUserResponse {
@@ -25,7 +26,7 @@ message GetUserResponse {
 }
 
 message GetUserByEmailRequest {
-  string email = 1;
+  string email = 1 [(buf.validate.field).string.email = true];
 }
 
 message GetUserByEmailResponse {
@@ -33,9 +34,12 @@ message GetUserByEmailResponse {
 }
 
 message CreateUserRequest {
-  string id = 1; 
-  string email = 2;
-  optional string display_name = 3;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  string email = 2 [(buf.validate.field).string.email = true];
+  optional string display_name = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
 }
 
 message CreateUserResponse {
@@ -43,10 +47,13 @@ message CreateUserResponse {
 }
 
 message UpdateUserRequest {
-  string id = 1;
-  optional string email = 2;
-  optional string display_name = 3;
-  optional int64 default_account_id = 4;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  optional string email = 2 [(buf.validate.field).string.email = true];
+  optional string display_name = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  optional int64 default_account_id = 4 [(buf.validate.field).int64.gt = 0];
 }
 
 message UpdateUserResponse {
@@ -54,14 +61,17 @@ message UpdateUserResponse {
 }
 
 message DeleteUserRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message DeleteUserResponse {}
 
 message UpdateUserDisplayNameRequest {
-  string id = 1;
-  string display_name = 2;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  string display_name = 2 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
 }
 
 message UpdateUserDisplayNameResponse {
@@ -69,8 +79,8 @@ message UpdateUserDisplayNameResponse {
 }
 
 message SetUserDefaultAccountRequest {
-  string id = 1;
-  int64 default_account_id = 2;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  int64 default_account_id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message SetUserDefaultAccountResponse {
@@ -78,8 +88,11 @@ message SetUserDefaultAccountResponse {
 }
 
 message ListUsersRequest {
-  optional int32 limit = 1;
-  optional int32 offset = 2;
+  optional int32 limit = 1 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+  optional int32 offset = 2 [(buf.validate.field).int32.gte = 0];
 }
 
 message ListUsersResponse {
@@ -88,7 +101,7 @@ message ListUsersResponse {
 }
 
 message CheckUserExistsRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message CheckUserExistsResponse {

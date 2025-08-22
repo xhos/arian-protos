@@ -6,6 +6,7 @@ import "arian/v1/enums.proto";
 import "arian/v1/receipts.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "buf/validate/validate.proto";
 
 service ReceiptService {
   rpc ListReceipts(ListReceiptsRequest) returns (ListReceiptsResponse);
@@ -33,11 +34,14 @@ service ReceiptService {
 }
 
 message ListReceiptsRequest {
-  string user_id = 1;
-  optional int32 limit = 2;
-  optional int32 offset = 3;
-  optional ReceiptLinkStatus link_status = 4;
-  optional ReceiptParseStatus parse_status = 5;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  optional int32 limit = 2 [(buf.validate.field).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+  optional int32 offset = 3 [(buf.validate.field).int32.gte = 0];
+  optional ReceiptLinkStatus link_status = 4 [(buf.validate.field).enum.defined_only = true];
+  optional ReceiptParseStatus parse_status = 5 [(buf.validate.field).enum.defined_only = true];
   optional google.protobuf.Timestamp start_date = 6;
   optional google.protobuf.Timestamp end_date = 7;
 }
@@ -48,8 +52,8 @@ message ListReceiptsResponse {
 }
 
 message GetReceiptRequest {
-  string user_id = 1;
-  int64 id = 2;
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
 }
 
 message GetReceiptResponse {
