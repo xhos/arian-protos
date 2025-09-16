@@ -8,9 +8,8 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
 service CategoryService {
-  rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse);
   rpc ListCategoriesWithUsage(ListCategoriesWithUsageRequest) returns (ListCategoriesWithUsageResponse);
-  rpc ListCategoriesForUser(ListCategoriesForUserRequest) returns (ListCategoriesForUserResponse);
+  rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse);
   rpc GetCategory(GetCategoryRequest) returns (GetCategoryResponse);
   rpc GetCategoryBySlug(GetCategoryBySlugRequest) returns (GetCategoryBySlugResponse);
   rpc GetCategoryWithStats(GetCategoryWithStatsRequest) returns (GetCategoryWithStatsResponse);
@@ -23,22 +22,8 @@ service CategoryService {
   rpc GetCategoriesWithStats(GetCategoriesWithStatsRequest) returns (GetCategoriesWithStatsResponse);
   rpc SearchCategories(SearchCategoriesRequest) returns (SearchCategoriesResponse);
   rpc ListCategorySlugs(ListCategorySlugsRequest) returns (ListCategorySlugsResponse);
-  rpc GetMostUsedCategoriesForUser(GetMostUsedCategoriesForUserRequest) returns (GetMostUsedCategoriesForUserResponse);
+  rpc GetMostUsedCategories(GetMostUsedCategoriesRequest) returns (GetMostUsedCategoriesResponse);
   rpc GetUnusedCategories(GetUnusedCategoriesRequest) returns (GetUnusedCategoriesResponse);
-}
-
-message ListCategoriesRequest {
-  optional int32 limit = 1 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 100
-  }];
-  optional int32 offset = 2 [(buf.validate.field).int32.gte = 0];
-  optional string filter = 3 [(buf.validate.field).string.max_len = 100];
-}
-
-message ListCategoriesResponse {
-  repeated Category categories = 1;
-  int64 total_count = 2;
 }
 
 message GetCategoryRequest {
@@ -159,7 +144,7 @@ message ListCategoriesWithUsageResponse {
   int64 total_count = 2;
 }
 
-message ListCategoriesForUserRequest {
+message ListCategoriesRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
   optional int32 limit = 2 [(buf.validate.field).int32 = {
     gte: 1,
@@ -168,8 +153,8 @@ message ListCategoriesForUserRequest {
   optional int32 offset = 3 [(buf.validate.field).int32.gte = 0];
 }
 
-message ListCategoriesForUserResponse {
-  repeated CategoryWithUserUsage categories = 1;
+message ListCategoriesResponse {
+  repeated Category categories = 1;
   int64 total_count = 2;
 }
 
@@ -218,7 +203,7 @@ message ListCategorySlugsResponse {
   repeated string slugs = 1;
 }
 
-message GetMostUsedCategoriesForUserRequest {
+message GetMostUsedCategoriesRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
   optional google.protobuf.Timestamp start_date = 2;
   optional google.protobuf.Timestamp end_date = 3;
@@ -228,7 +213,7 @@ message GetMostUsedCategoriesForUserRequest {
   }];
 }
 
-message GetMostUsedCategoriesForUserResponse {
+message GetMostUsedCategoriesResponse {
   repeated CategoryWithUsage categories = 1;
 }
 
