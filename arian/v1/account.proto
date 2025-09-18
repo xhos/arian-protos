@@ -17,6 +17,8 @@ message Account {
   google.protobuf.Timestamp created_at = 8;
   google.protobuf.Timestamp updated_at = 9;
   optional string alias = 10;
+  string main_currency = 11;
+  repeated string colors = 12;
 }
 
 message AccountBalance {
