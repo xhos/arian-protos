@@ -19,6 +19,7 @@ message Account {
   optional string alias = 10;
   string main_currency = 11;
   repeated string colors = 12;
+  google.type.Money balance = 13;
 }
 
 message AccountBalance {
