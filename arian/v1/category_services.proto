@@ -5,25 +5,15 @@ package arian.v1;
 import "arian/v1/category.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/field_mask.proto";
-import "google/protobuf/timestamp.proto";
 
 service CategoryService {
-  rpc ListCategoriesWithUsage(ListCategoriesWithUsageRequest) returns (ListCategoriesWithUsageResponse);
   rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse);
   rpc GetCategory(GetCategoryRequest) returns (GetCategoryResponse);
   rpc GetCategoryBySlug(GetCategoryBySlugRequest) returns (GetCategoryBySlugResponse);
-  rpc GetCategoryWithStats(GetCategoryWithStatsRequest) returns (GetCategoryWithStatsResponse);
   rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
-  rpc BulkCreateCategories(BulkCreateCategoriesRequest) returns (BulkCreateCategoriesResponse);
   rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse);
   rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse);
-  rpc DeleteUnusedCategories(DeleteUnusedCategoriesRequest) returns (DeleteUnusedCategoriesResponse);
-  rpc GetCategoryUsageStats(GetCategoryUsageStatsRequest) returns (GetCategoryUsageStatsResponse);
-  rpc GetCategoriesWithStats(GetCategoriesWithStatsRequest) returns (GetCategoriesWithStatsResponse);
-  rpc SearchCategories(SearchCategoriesRequest) returns (SearchCategoriesResponse);
   rpc ListCategorySlugs(ListCategorySlugsRequest) returns (ListCategorySlugsResponse);
-  rpc GetMostUsedCategories(GetMostUsedCategoriesRequest) returns (GetMostUsedCategoriesResponse);
-  rpc GetUnusedCategories(GetUnusedCategoriesRequest) returns (GetUnusedCategoriesResponse);
 }
 
 message GetCategoryRequest {
@@ -35,20 +25,8 @@ message GetCategoryResponse {
 }
 
 message CreateCategoryRequest {
-  string slug = 1 [(buf.validate.field).string = {
-    pattern: "^[a-z0-9]+(\\.[a-z0-9]+)*$",
-    min_len: 1,
-    max_len: 50
-  }];
-  string label = 2 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  string color = 3 [(buf.validate.field).string = {
-    pattern: "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$",
-    min_len: 4,
-    max_len: 7
-  }];
+  string slug = 1;
+  string color = 2;
 }
 
 message CreateCategoryResponse {
@@ -59,20 +37,8 @@ message UpdateCategoryRequest {
   int64 id = 1 [(buf.validate.field).int64.gt = 0];
   google.protobuf.FieldMask update_mask = 2;
 
-  optional string slug = 3 [(buf.validate.field).string = {
-    pattern: "^[a-z0-9]+(\\.[a-z0-9]+)*$",
-    min_len: 1,
-    max_len: 50
-  }];
-  optional string label = 4 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  optional string color = 5 [(buf.validate.field).string = {
-    pattern: "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$",
-    min_len: 4,
-    max_len: 7
-  }];
+  optional string slug = 3;
+  optional string color = 4;
 }
 
 message UpdateCategoryResponse {
@@ -85,63 +51,6 @@ message DeleteCategoryRequest {
 
 message DeleteCategoryResponse {
   int64 affected_rows = 1;
-}
-
-message GetCategoryUsageStatsRequest {
-  int64 category_id = 1 [(buf.validate.field).int64.gt = 0];
-  string user_id = 2 [(buf.validate.field).string.uuid = true];
-  optional google.protobuf.Timestamp start_date = 3;
-  optional google.protobuf.Timestamp end_date = 4;
-}
-
-message GetCategoryUsageStatsResponse {
-  Category category = 1;
-}
-
-message GetCategoriesWithStatsRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  optional google.protobuf.Timestamp start_date = 2;
-  optional google.protobuf.Timestamp end_date = 3;
-  optional int32 limit = 4 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 100
-  }];
-  optional int32 offset = 5 [(buf.validate.field).int32.gte = 0];
-}
-
-message GetCategoriesWithStatsResponse {
-  repeated Category categories = 1;
-  int64 total_count = 2;
-}
-
-message SearchCategoriesRequest {
-  string query = 1 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  optional int32 limit = 2 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 100
-  }];
-  optional int32 offset = 3 [(buf.validate.field).int32.gte = 0];
-}
-
-message SearchCategoriesResponse {
-  repeated Category categories = 1;
-  int64 total_count = 2;
-}
-
-message ListCategoriesWithUsageRequest {
-  optional int32 limit = 1 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 100
-  }];
-  optional int32 offset = 2 [(buf.validate.field).int32.gte = 0];
-}
-
-message ListCategoriesWithUsageResponse {
-  repeated CategoryWithUsage categories = 1;
-  int64 total_count = 2;
 }
 
 message ListCategoriesRequest {
@@ -159,66 +68,15 @@ message ListCategoriesResponse {
 }
 
 message GetCategoryBySlugRequest {
-  string slug = 1 [(buf.validate.field).string = {
-    pattern: "^[a-z0-9]+(\\.[a-z0-9]+)*$",
-    min_len: 1,
-    max_len: 50
-  }];
+  string slug = 1;
 }
 
 message GetCategoryBySlugResponse {
   Category category = 1;
 }
 
-message GetCategoryWithStatsRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
-}
-
-message GetCategoryWithStatsResponse {
-  Category category = 1;
-  CategoryStats stats = 2;
-}
-
-message BulkCreateCategoriesRequest {
-  repeated CreateCategoryRequest categories = 1 [(buf.validate.field).repeated = {
-    min_items: 1,
-    max_items: 50
-  }];
-}
-
-message BulkCreateCategoriesResponse {
-  repeated Category categories = 1;
-  int64 affected_rows = 2;
-}
-
-message DeleteUnusedCategoriesRequest {}
-
-message DeleteUnusedCategoriesResponse {
-  int64 affected_rows = 1;
-}
-
 message ListCategorySlugsRequest {}
 
 message ListCategorySlugsResponse {
   repeated string slugs = 1;
-}
-
-message GetMostUsedCategoriesRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  optional google.protobuf.Timestamp start_date = 2;
-  optional google.protobuf.Timestamp end_date = 3;
-  optional int32 limit = 4 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 100
-  }];
-}
-
-message GetMostUsedCategoriesResponse {
-  repeated CategoryWithUsage categories = 1;
-}
-
-message GetUnusedCategoriesRequest {}
-
-message GetUnusedCategoriesResponse {
-  repeated Category categories = 1;
 }
