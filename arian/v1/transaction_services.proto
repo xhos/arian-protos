@@ -50,10 +50,7 @@ message ListTransactionsRequest {
   }];
   optional string merchant_query = 13 [(buf.validate.field).string.max_len = 200];
   optional string description_query = 14 [(buf.validate.field).string.max_len = 500];
-  optional string currency = 15 [(buf.validate.field).string = {
-    len: 3,
-    pattern: "^[A-Z]{3}$"
-  }];
+  optional string currency = 15;
   optional TimeOfDay time_of_day_start = 16;
   optional TimeOfDay time_of_day_end = 17;
 }
@@ -78,16 +75,13 @@ message CreateTransactionRequest {
   int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
   google.protobuf.Timestamp tx_date = 3;
   google.type.Money tx_amount = 4;
-  TransactionDirection direction = 5 [(buf.validate.field).enum.defined_only = true];
-  optional string description = 6 [(buf.validate.field).string.max_len = 500];
-  optional string merchant = 7 [(buf.validate.field).string.max_len = 200];
-  optional string user_notes = 8 [(buf.validate.field).string.max_len = 1000];
-  optional int64 category_id = 9 [(buf.validate.field).int64.gt = 0];
+  TransactionDirection direction = 5;
+  optional string description = 6;
+  optional string merchant = 7;
+  optional string user_notes = 8;
+  optional int64 category_id = 9;
   optional google.type.Money foreign_amount = 10;
-  optional double exchange_rate = 11 [(buf.validate.field).double = {
-    gt: 0,
-    lt: 1000
-  }];
+  optional double exchange_rate = 11;
 }
 
 message CreateTransactionResponse {
@@ -101,16 +95,13 @@ message UpdateTransactionRequest {
 
   optional google.protobuf.Timestamp tx_date = 4;
   optional google.type.Money tx_amount = 5;
-  optional TransactionDirection direction = 6 [(buf.validate.field).enum.defined_only = true];
-  optional string description = 7 [(buf.validate.field).string.max_len = 500];
-  optional string merchant = 8 [(buf.validate.field).string.max_len = 200];
-  optional string user_notes = 9 [(buf.validate.field).string.max_len = 1000];
-  optional int64 category_id = 10 [(buf.validate.field).int64.gt = 0];
+  optional TransactionDirection direction = 6;
+  optional string description = 7;
+  optional string merchant = 8;
+  optional string user_notes = 9;
+  optional int64 category_id = 10;
   optional google.type.Money foreign_amount = 11;
-  optional double exchange_rate = 12 [(buf.validate.field).double = {
-    gt: 0,
-    lt: 1000
-  }];
+  optional double exchange_rate = 12;
 }
 
 message UpdateTransactionResponse {
@@ -129,7 +120,7 @@ message DeleteTransactionResponse {
 message CategorizeTransactionRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
   int64 transaction_id = 2 [(buf.validate.field).int64.gt = 0];
-  int64 category_id = 3 [(buf.validate.field).int64.gt = 0];
+  int64 category_id = 3;
 }
 
 message CategorizeTransactionResponse {
@@ -143,7 +134,7 @@ message SearchTransactionsRequest {
     max_len: 500
   }];
   optional int64 account_id = 3 [(buf.validate.field).int64.gt = 0];
-  optional int64 category_id = 4 [(buf.validate.field).int64.gt = 0];
+  optional int64 category_id = 4;
   optional int32 limit = 5 [(buf.validate.field).int32 = {
     gte: 1,
     lte: 1000
@@ -198,7 +189,7 @@ message BulkCategorizeTransactionsRequest {
     min_items: 1,
     max_items: 100
   }];
-  int64 category_id = 3 [(buf.validate.field).int64.gt = 0];
+  int64 category_id = 3;
 }
 
 message BulkCategorizeTransactionsResponse {
@@ -227,10 +218,7 @@ message GetTransactionCountByAccountResponse {
 
 message FindCandidateTransactionsRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
-  string merchant = 2 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 200
-  }];
+  string merchant = 2;
   google.protobuf.Timestamp purchase_date = 3;
   google.type.Money total_amount = 4;
 }

@@ -3,22 +3,44 @@ syntax = "proto3";
 package arian.v1;
 
 import "arian/v1/enums.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
 
 message Account {
   int64 id = 1;
-  string owner_id = 2;
-  string name = 3;
-  string bank = 4;
-  AccountType type = 5;
+  string owner_id = 2 [(buf.validate.field).string.uuid = true];
+  string name = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  string bank = 4 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  AccountType type = 5 [(buf.validate.field).enum.defined_only = true];
   google.type.Money anchor_balance = 6;
   google.protobuf.Timestamp anchor_date = 7;
   google.protobuf.Timestamp created_at = 8;
   google.protobuf.Timestamp updated_at = 9;
-  optional string alias = 10;
-  string main_currency = 11;
-  repeated string colors = 12;
+  optional string alias = 10 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
+  string main_currency = 11 [(buf.validate.field).string = {
+    len: 3,
+    pattern: "^[A-Z]{3}$"
+  }];
+  repeated string colors = 12 [(buf.validate.field).repeated = {
+    min_items: 3,
+    max_items: 3,
+    items: {
+      string: {
+        len: 7,
+        pattern: "^#[0-9a-fA-F]{6}$"
+      }
+    }
+  }];
   google.type.Money balance = 13;
 }
 

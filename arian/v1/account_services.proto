@@ -41,32 +41,13 @@ message GetAccountResponse {
 
 message CreateAccountRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
-  string name = 2 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  string bank = 3 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  AccountType type = 4 [(buf.validate.field).enum.defined_only = true];
-  optional string alias = 5 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 50
-  }];
+  string name = 2;
+  string bank = 3;
+  AccountType type = 4;
+  optional string alias = 5;
   google.type.Money anchor_balance = 6;
-  string main_currency = 7 [(buf.validate.field).string = {
-    len: 3,
-    pattern: "^[A-Z]{3}$"
-  }];
-  repeated string colors = 8 [(buf.validate.field).repeated = {
-    items: {
-      string: {
-        len: 7,
-        pattern: "^#[0-9a-fA-F]{6}$"
-      }
-    }
-  }];
+  string main_currency = 7;
+  repeated string colors = 8;
 }
 
 message CreateAccountResponse {
@@ -79,35 +60,14 @@ message UpdateAccountRequest {
   google.protobuf.FieldMask update_mask = 3;
 
   // fields that can be updated
-  optional string name = 4 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  optional string bank = 5 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  optional AccountType account_type = 6 [(buf.validate.field).enum.defined_only = true];
-  optional string alias = 7 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 50
-  }];
+  optional string name = 4;
+  optional string bank = 5;
+  optional AccountType account_type = 6;
+  optional string alias = 7;
   optional google.protobuf.Timestamp anchor_date = 8;
   optional google.type.Money anchor_balance = 9;
-  optional string main_currency = 10 [(buf.validate.field).string = {
-    len: 3,
-    pattern: "^[A-Z]{3}$"
-  }];
-  repeated string colors = 11 [(buf.validate.field).repeated = {
-    min_items: 3,
-    max_items: 3,
-    items: {
-      string: {
-        len: 7,
-        pattern: "^#[0-9a-fA-F]{6}$"
-      }
-    }
-  }];
+  optional string main_currency = 10;
+  repeated string colors = 11;
 }
 
 message UpdateAccountResponse {
@@ -160,9 +120,6 @@ message GetAnchorBalanceRequest {
 
 message GetAnchorBalanceResponse {
   google.type.Money anchor_balance = 1;
-  string currency = 2 [(buf.validate.field).string = {
-    len: 3,
-    pattern: "^[A-Z]{3}$"
-  }];
+  string currency = 2;
 }
 

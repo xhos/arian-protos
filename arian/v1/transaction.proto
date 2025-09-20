@@ -4,6 +4,7 @@ package arian.v1;
 
 import "arian/v1/category.proto";
 import "arian/v1/enums.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/money.proto";
 
@@ -16,15 +17,15 @@ message Transaction {
 
   // metadata
   optional string email_id = 6;
-  optional string description = 7;
+  optional string description = 7 [(buf.validate.field).string.max_len = 500];
 
   // categorization
-  optional int64 category_id = 9;
-  CategorizationStatus categorization_status = 10;
+  optional int64 category_id = 9 [(buf.validate.field).int64.gt = 0];
+  CategorizationStatus categorization_status = 10 [(buf.validate.field).enum.defined_only = true];
 
   // merchant & notes
-  optional string merchant = 11;
-  optional string user_notes = 12;
+  optional string merchant = 11 [(buf.validate.field).string.max_len = 200];
+  optional string user_notes = 12 [(buf.validate.field).string.max_len = 1000];
 
   // balance after this tx
   optional google.type.Money balance_after = 13;
@@ -37,7 +38,10 @@ message Transaction {
 
   // FX details
   optional google.type.Money foreign_amount = 16;
-  optional double exchange_rate = 17;
+  optional double exchange_rate = 17 [(buf.validate.field).double = {
+    gt: 0,
+    lt: 1000
+  }];
 
   google.protobuf.Timestamp created_at = 18;
   google.protobuf.Timestamp updated_at = 19;

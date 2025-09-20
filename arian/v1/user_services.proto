@@ -18,7 +18,7 @@ service UserService {
 }
 
 message GetUserRequest {
-  string id = 1 [(buf.validate.field).string.uuid = true];
+  string id = 1;
 }
 
 message GetUserResponse {
@@ -26,7 +26,7 @@ message GetUserResponse {
 }
 
 message GetUserByEmailRequest {
-  string email = 1 [(buf.validate.field).string.email = true];
+  string email = 1;
 }
 
 message GetUserByEmailResponse {
@@ -34,12 +34,9 @@ message GetUserByEmailResponse {
 }
 
 message CreateUserRequest {
-  string id = 1 [(buf.validate.field).string.uuid = true];
-  string email = 2 [(buf.validate.field).string.email = true];
-  optional string display_name = 3 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
+  string id = 1;
+  string email = 2;
+  optional string display_name = 3;
 }
 
 message CreateUserResponse {
@@ -47,13 +44,10 @@ message CreateUserResponse {
 }
 
 message UpdateUserRequest {
-  string id = 1 [(buf.validate.field).string.uuid = true];
-  optional string email = 2 [(buf.validate.field).string.email = true];
-  optional string display_name = 3 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
-  optional int64 default_account_id = 4 [(buf.validate.field).int64.gt = 0];
+  string id = 1;
+  optional string email = 2;
+  optional string display_name = 3;
+  optional int64 default_account_id = 4;
 }
 
 message UpdateUserResponse {
@@ -61,17 +55,14 @@ message UpdateUserResponse {
 }
 
 message DeleteUserRequest {
-  string id = 1 [(buf.validate.field).string.uuid = true];
+  string id = 1;
 }
 
 message DeleteUserResponse {}
 
 message UpdateUserDisplayNameRequest {
-  string id = 1 [(buf.validate.field).string.uuid = true];
-  string display_name = 2 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 100
-  }];
+  string id = 1;
+  string display_name = 2;
 }
 
 message UpdateUserDisplayNameResponse {
@@ -79,8 +70,8 @@ message UpdateUserDisplayNameResponse {
 }
 
 message SetUserDefaultAccountRequest {
-  string id = 1 [(buf.validate.field).string.uuid = true];
-  int64 default_account_id = 2 [(buf.validate.field).int64.gt = 0];
+  string id = 1;
+  int64 default_account_id = 2;
 }
 
 message SetUserDefaultAccountResponse {
@@ -101,7 +92,7 @@ message ListUsersResponse {
 }
 
 message CheckUserExistsRequest {
-  string id = 1 [(buf.validate.field).string.uuid = true];
+  string id = 1;
 }
 
 message CheckUserExistsResponse {

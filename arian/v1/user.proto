@@ -2,13 +2,17 @@ syntax = "proto3";
 
 package arian.v1;
 
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 message User {
-  string id = 1;
-  string email = 2;
-  optional string display_name = 3;
-  optional int64 default_account_id = 4;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  string email = 2 [(buf.validate.field).string.email = true];
+  optional string display_name = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 100
+  }];
+  optional int64 default_account_id = 4 [(buf.validate.field).int64.gt = 0];
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
 }
