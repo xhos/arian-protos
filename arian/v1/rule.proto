@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package arian.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "buf/validate/validate.proto";
+
+message Rule {
+  string rule_id = 1;
+  string user_id = 2;
+  string rule_name = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 255
+  }];
+  string category_id = 4;
+
+  google.protobuf.Struct conditions = 5;
+
+  bool is_active = 6;
+  int32 priority_order = 7;
+  string rule_source = 8 [(buf.validate.field).string = {
+    in: ["user_created", "ai_suggested", "ai_approved"]
+  }];
+
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+  optional google.protobuf.Timestamp last_applied_at = 11;
+
+  int32 times_applied = 12;
+}
