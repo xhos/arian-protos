@@ -13,6 +13,7 @@ service RuleService {
   rpc CreateRule(CreateRuleRequest) returns (CreateRuleResponse);
   rpc UpdateRule(UpdateRuleRequest) returns (UpdateRuleResponse);
   rpc DeleteRule(DeleteRuleRequest) returns (DeleteRuleResponse);
+  rpc ValidateRule(ValidateRuleRequest) returns (ValidateRuleResponse);
 }
 
 message ListRulesRequest {
@@ -69,4 +70,20 @@ message DeleteRuleRequest {
 
 message DeleteRuleResponse {
   int64 affected_rows = 1;
+}
+
+message ValidateRuleRequest {
+  google.protobuf.Struct conditions = 1;
+}
+
+message ValidationError {
+  string field = 1;
+  string message = 2;
+  string code = 3;
+}
+
+message ValidateRuleResponse {
+  bool valid = 1;
+  repeated ValidationError errors = 2;
+  google.protobuf.Struct normalized_conditions = 3;
 }
