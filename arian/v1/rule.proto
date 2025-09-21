@@ -13,7 +13,7 @@ message Rule {
     min_len: 1,
     max_len: 255
   }];
-  string category_id = 4;
+  int64 category_id = 4;
 
   google.protobuf.Struct conditions = 5;
 
