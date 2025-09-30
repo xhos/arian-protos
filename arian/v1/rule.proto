@@ -13,7 +13,7 @@ message Rule {
     min_len: 1,
     max_len: 255
   }];
-  int64 category_id = 4;
+  optional int64 category_id = 4;
 
   google.protobuf.Struct conditions = 5;
 
@@ -28,4 +28,5 @@ message Rule {
   optional google.protobuf.Timestamp last_applied_at = 11;
 
   int32 times_applied = 12;
+  optional string merchant = 13;
 }
