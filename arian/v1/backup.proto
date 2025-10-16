@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package arian.v1;
+
+import "arian/v1/enums.proto";
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/money.proto";
+
+message Backup {
+  string version = 1;
+  google.protobuf.Timestamp exported_at = 2;
+  repeated CategoryData categories = 3;
+  repeated AccountData accounts = 4;
+  repeated TransactionData transactions = 5;
+  repeated RuleData rules = 6;
+}
+
+message CategoryData {
+  string slug = 1 [(buf.validate.field).string.min_len = 1];
+  string color = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message AccountData {
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  string bank = 2 [(buf.validate.field).string.min_len = 1];
+  string account_type = 3 [(buf.validate.field).string.min_len = 1];
+  optional string alias = 4;
+  optional google.protobuf.Timestamp anchor_date = 5;
+  google.type.Money anchor_balance = 6 [(buf.validate.field).required = true];
+  string main_currency = 7 [(buf.validate.field).string.min_len = 3];
+  repeated string colors = 8;
+}
+
+message TransactionData {
+  string account_name = 1 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.Timestamp tx_date = 2 [(buf.validate.field).required = true];
+  google.type.Money tx_amount = 3 [(buf.validate.field).required = true];
+  string tx_direction = 4 [(buf.validate.field).string.min_len = 1];
+  optional string tx_desc = 5;
+  optional google.type.Money balance_after = 6;
+  optional string merchant = 7;
+  optional string category_slug = 8;
+  optional string user_notes = 9;
+  optional google.type.Money foreign_amount = 10;
+  optional double exchange_rate = 11;
+}
+
+message RuleData {
+  string rule_name = 1 [(buf.validate.field).string.min_len = 1];
+  optional string category_slug = 2;
+  optional string merchant = 3;
+  string conditions_json = 4 [(buf.validate.field).string.min_len = 1];
+  optional bool is_active = 5;
+  optional int32 priority_order = 6;
+  optional string rule_source = 7;
+}

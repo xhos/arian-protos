@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package arian.v1;
+
+import "arian/v1/backup.proto";
+
+service BackupService {
+  rpc ExportBackup(ExportBackupRequest) returns (ExportBackupResponse);
+  rpc ImportBackup(ImportBackupRequest) returns (ImportBackupResponse);
+}
+
+message ExportBackupRequest {}
+
+message ExportBackupResponse {
+  Backup backup = 1;
+}
+
+message ImportBackupRequest {
+  Backup backup = 1;
+}
+
+message ImportBackupResponse {
+  int32 categories_imported = 1;
+  int32 accounts_imported = 2;
+  int32 transactions_imported = 3;
+  int32 rules_imported = 4;
+}
