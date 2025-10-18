@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package arian.v1;
 
+import "arian/v1/category.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
 
@@ -40,4 +41,26 @@ message TopMerchant {
   int64 transaction_count = 2;
   google.type.Money total_amount = 3;
   google.type.Money avg_amount = 4;
+}
+
+message PeriodInfo {
+  google.type.Date start_date = 1;
+  google.type.Date end_date = 2;
+  string label = 3;
+}
+
+message PeriodSpending {
+  google.type.Money amount = 1;
+  int64 transaction_count = 2;
+}
+
+message CategorySpendingComparison {
+  optional int64 category_id = 1;
+  PeriodSpending current_period = 2;
+  PeriodSpending previous_period = 3;
+}
+
+message CategorySpendingTotals {
+  google.type.Money current_period_total = 1;
+  google.type.Money previous_period_total = 2;
 }

@@ -3,7 +3,9 @@ syntax = "proto3";
 package arian.v1;
 
 import "arian/v1/account.proto";
+import "arian/v1/category.proto";
 import "arian/v1/dashboard.proto";
+import "arian/v1/enums.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
 
@@ -19,6 +21,7 @@ service DashboardService {
   rpc GetTotalBalance(GetTotalBalanceRequest) returns (GetTotalBalanceResponse);
   rpc GetTotalDebt(GetTotalDebtRequest) returns (GetTotalDebtResponse);
   rpc GetNetBalance(GetNetBalanceRequest) returns (GetNetBalanceResponse);
+  rpc GetCategorySpendingComparison(GetCategorySpendingComparisonRequest) returns (GetCategorySpendingComparisonResponse);
 }
 
 message GetDashboardSummaryRequest {
@@ -128,4 +131,25 @@ message GetNetBalanceRequest {
 
 message GetNetBalanceResponse {
   google.type.Money net_balance = 1;
+}
+
+message GetCategorySpendingComparisonRequest {
+  string user_id = 1;
+  PeriodType period_type = 2;
+  optional google.type.Date custom_start_date = 3;
+  optional google.type.Date custom_end_date = 4;
+  string timezone = 5;
+}
+
+message CategorySpendingItem {
+  optional Category category = 1;
+  CategorySpendingComparison spending = 2;
+}
+
+message GetCategorySpendingComparisonResponse {
+  PeriodInfo current_period = 1;
+  PeriodInfo previous_period = 2;
+  repeated CategorySpendingItem categories = 3;
+  optional CategorySpendingComparison uncategorized = 4;
+  CategorySpendingTotals totals = 5;
 }
