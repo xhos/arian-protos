@@ -22,6 +22,7 @@ service DashboardService {
   rpc GetTotalDebt(GetTotalDebtRequest) returns (GetTotalDebtResponse);
   rpc GetNetBalance(GetNetBalanceRequest) returns (GetNetBalanceResponse);
   rpc GetCategorySpendingComparison(GetCategorySpendingComparisonRequest) returns (GetCategorySpendingComparisonResponse);
+  rpc GetNetWorthHistory(GetNetWorthHistoryRequest) returns (GetNetWorthHistoryResponse);
 }
 
 message GetDashboardSummaryRequest {
@@ -138,7 +139,6 @@ message GetCategorySpendingComparisonRequest {
   PeriodType period_type = 2;
   optional google.type.Date custom_start_date = 3;
   optional google.type.Date custom_end_date = 4;
-  string timezone = 5;
 }
 
 message CategorySpendingItem {
@@ -152,4 +152,15 @@ message GetCategorySpendingComparisonResponse {
   repeated CategorySpendingItem categories = 3;
   optional CategorySpendingComparison uncategorized = 4;
   CategorySpendingTotals totals = 5;
+}
+
+message GetNetWorthHistoryRequest {
+  string user_id = 1;
+  google.type.Date start_date = 2;
+  google.type.Date end_date = 3;
+  Granularity granularity = 4;
+}
+
+message GetNetWorthHistoryResponse {
+  repeated NetWorthPoint data_points = 1;
 }

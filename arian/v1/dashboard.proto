@@ -64,3 +64,8 @@ message CategorySpendingTotals {
   google.type.Money current_period_total = 1;
   google.type.Money previous_period_total = 2;
 }
+
+message NetWorthPoint {
+  google.type.Date date = 1;
+  google.type.Money net_worth = 2;
+}
