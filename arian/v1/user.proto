@@ -15,4 +15,12 @@ message User {
   optional int64 default_account_id = 4 [(buf.validate.field).int64.gt = 0];
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
+  string primary_currency = 7 [(buf.validate.field).string = {
+    len: 3,
+    pattern: "^[A-Z]{3}$"
+  }];
+  string timezone = 8 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
 }
