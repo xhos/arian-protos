@@ -31,25 +31,19 @@ message Transaction {
   // balance after this tx
   optional google.type.Money balance_after = 13;
 
-  // AI suggestions
-  repeated string suggestions = 14;
-
-  // receipt linkage
-  optional int64 receipt_id = 15;
-
   // FX details
-  optional google.type.Money foreign_amount = 16;
-  optional double exchange_rate = 17 [(buf.validate.field).double = {
+  optional google.type.Money foreign_amount = 14;
+  optional double exchange_rate = 15 [(buf.validate.field).double = {
     gt: 0,
     lt: 1000
   }];
 
-  google.protobuf.Timestamp created_at = 18;
-  google.protobuf.Timestamp updated_at = 19;
+  google.protobuf.Timestamp created_at = 16;
+  google.protobuf.Timestamp updated_at = 17;
 
   // additional fields for API responses
-  optional Category category = 20;
-  optional string account_name = 21;
+  optional Category category = 18;
+  optional string account_name = 19;
 }
 
 message TransactionWithScore {

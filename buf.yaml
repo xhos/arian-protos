@@ -21,7 +21,6 @@ lint:
       - arian/v1/transaction_services.proto
       - arian/v1/category_services.proto
       - arian/v1/dashboard_services.proto
-      - arian/v1/receipt_services.proto
 
     RPC_REQUEST_RESPONSE_UNIQUE:
       - arian/v1/user_services.proto
@@ -29,7 +28,6 @@ lint:
       - arian/v1/transaction_services.proto
       - arian/v1/category_services.proto
       - arian/v1/dashboard_services.proto
-      - arian/v1/receipt_services.proto
 
 breaking:
   use:

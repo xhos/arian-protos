@@ -25,7 +25,6 @@ service TransactionService {
   rpc GetTransactionCountByAccount(GetTransactionCountByAccountRequest) returns (GetTransactionCountByAccountResponse);
   rpc FindCandidateTransactions(FindCandidateTransactionsRequest) returns (FindCandidateTransactionsResponse);
   rpc IdentifyMerchant(IdentifyMerchantRequest) returns (IdentifyMerchantResponse);
-  rpc SetTransactionReceipt(SetTransactionReceiptRequest) returns (SetTransactionReceiptResponse);
 }
 
 message ListTransactionsRequest {
@@ -235,13 +234,4 @@ message IdentifyMerchantRequest {
 
 message IdentifyMerchantResponse {
   string merchant = 1;
-}
-
-message SetTransactionReceiptRequest {
-  int64 transaction_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 receipt_id = 2 [(buf.validate.field).int64.gt = 0];
-}
-
-message SetTransactionReceiptResponse {
-  int64 affected_rows = 1;
 }
