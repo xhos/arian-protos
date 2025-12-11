@@ -16,8 +16,6 @@ service AccountService {
   rpc UpdateAccount(UpdateAccountRequest) returns (UpdateAccountResponse);
   rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
   rpc SetAccountAnchor(SetAccountAnchorRequest) returns (SetAccountAnchorResponse);
-  rpc GetAccountBalance(GetAccountBalanceRequest) returns (GetAccountBalanceResponse);
-  rpc GetAnchorBalance(GetAnchorBalanceRequest) returns (GetAnchorBalanceResponse);
   rpc GetAccountsCount(GetAccountsCountRequest) returns (GetAccountsCountResponse);
   rpc SyncAccountBalances(SyncAccountBalancesRequest) returns (SyncAccountBalancesResponse);
 }
@@ -92,14 +90,6 @@ message SetAccountAnchorResponse {
   int64 affected_rows = 1;
 }
 
-message GetAccountBalanceRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
-}
-
-message GetAccountBalanceResponse {
-  google.type.Money balance = 1;
-}
-
 message GetAccountsCountRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
 }
@@ -113,13 +103,3 @@ message SyncAccountBalancesRequest {
 }
 
 message SyncAccountBalancesResponse {}
-
-message GetAnchorBalanceRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
-}
-
-message GetAnchorBalanceResponse {
-  google.type.Money anchor_balance = 1;
-  string currency = 2;
-}
-
