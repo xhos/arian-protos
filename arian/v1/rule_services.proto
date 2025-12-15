@@ -63,9 +63,7 @@ message UpdateRuleRequest {
   optional bool apply_to_existing = 10;
 }
 
-message UpdateRuleResponse {
-  Rule rule = 1;
-}
+message UpdateRuleResponse {}
 
 message DeleteRuleRequest {
   string rule_id = 1 [(buf.validate.field).string.uuid = true];

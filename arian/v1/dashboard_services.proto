@@ -9,18 +9,16 @@ import "arian/v1/enums.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
 
+// analytics and reporting
 service DashboardService {
   rpc GetDashboardSummary(GetDashboardSummaryRequest) returns (GetDashboardSummaryResponse);
-  rpc GetTrendData(GetTrendDataRequest) returns (GetTrendDataResponse);
   rpc GetMonthlyComparison(GetMonthlyComparisonRequest) returns (GetMonthlyComparisonResponse);
   rpc GetTopCategories(GetTopCategoriesRequest) returns (GetTopCategoriesResponse);
   rpc GetTopMerchants(GetTopMerchantsRequest) returns (GetTopMerchantsResponse);
-  rpc GetAccountSummary(GetAccountSummaryRequest) returns (GetAccountSummaryResponse);
-  rpc GetAccountBalances(GetAccountBalancesRequest) returns (GetAccountBalancesResponse);
   rpc GetSpendingTrends(GetSpendingTrendsRequest) returns (GetSpendingTrendsResponse);
-  rpc GetTotalBalance(GetTotalBalanceRequest) returns (GetTotalBalanceResponse);
-  rpc GetTotalDebt(GetTotalDebtRequest) returns (GetTotalDebtResponse);
-  rpc GetNetBalance(GetNetBalanceRequest) returns (GetNetBalanceResponse);
+  // combines total balance, debt, and net worth across all accounts
+  rpc GetFinancialSummary(GetFinancialSummaryRequest) returns (GetFinancialSummaryResponse);
+  // compares category spending between current and previous period
   rpc GetCategorySpendingComparison(GetCategorySpendingComparisonRequest) returns (GetCategorySpendingComparisonResponse);
   rpc GetNetWorthHistory(GetNetWorthHistoryRequest) returns (GetNetWorthHistoryResponse);
 }
@@ -33,17 +31,6 @@ message GetDashboardSummaryRequest {
 
 message GetDashboardSummaryResponse {
   DashboardSummary summary = 1;
-}
-
-message GetTrendDataRequest {
-  string user_id = 1;
-  google.type.Date start_date = 2;
-  google.type.Date end_date = 3;
-  optional int64 account_id = 4;
-}
-
-message GetTrendDataResponse {
-  repeated TrendPoint trends = 1;
 }
 
 message GetMonthlyComparisonRequest {
@@ -78,18 +65,6 @@ message GetTopMerchantsResponse {
   repeated TopMerchant merchants = 1;
 }
 
-message GetAccountSummaryRequest {
-  string user_id = 1;
-  int64 account_id = 2;
-  optional google.type.Date start_date = 3;
-  optional google.type.Date end_date = 4;
-}
-
-message GetAccountSummaryResponse {
-  DashboardSummary summary = 1;
-  repeated TrendPoint trends = 2;
-}
-
 message GetSpendingTrendsRequest {
   string user_id = 1;
   google.type.Date start_date = 2;
@@ -102,36 +77,14 @@ message GetSpendingTrendsResponse {
   repeated TrendPoint trends = 1;
 }
 
-message GetAccountBalancesRequest {
+message GetFinancialSummaryRequest {
   string user_id = 1;
 }
 
-message GetAccountBalancesResponse {
-  repeated AccountBalance balances = 1;
-}
-
-message GetTotalBalanceRequest {
-  string user_id = 1;
-}
-
-message GetTotalBalanceResponse {
+message GetFinancialSummaryResponse {
   google.type.Money total_balance = 1;
-}
-
-message GetTotalDebtRequest {
-  string user_id = 1;
-}
-
-message GetTotalDebtResponse {
-  google.type.Money total_debt = 1;
-}
-
-message GetNetBalanceRequest {
-  string user_id = 1;
-}
-
-message GetNetBalanceResponse {
-  google.type.Money net_balance = 1;
+  google.type.Money total_debt = 2;
+  google.type.Money net_balance = 3;
 }
 
 message GetCategorySpendingComparisonRequest {

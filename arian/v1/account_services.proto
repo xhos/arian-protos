@@ -15,9 +15,6 @@ service AccountService {
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
   rpc UpdateAccount(UpdateAccountRequest) returns (UpdateAccountResponse);
   rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
-  rpc SetAccountAnchor(SetAccountAnchorRequest) returns (SetAccountAnchorResponse);
-  rpc GetAccountsCount(GetAccountsCountRequest) returns (GetAccountsCountResponse);
-  rpc SyncAccountBalances(SyncAccountBalancesRequest) returns (SyncAccountBalancesResponse);
 }
 
 message ListAccountsRequest {
@@ -68,9 +65,7 @@ message UpdateAccountRequest {
   repeated string colors = 11;
 }
 
-message UpdateAccountResponse {
-  Account account = 1;
-}
+message UpdateAccountResponse {}
 
 message DeleteAccountRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
@@ -80,26 +75,3 @@ message DeleteAccountRequest {
 message DeleteAccountResponse {
   int64 affected_rows = 1;
 }
-
-message SetAccountAnchorRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
-  google.type.Money balance = 2;
-}
-
-message SetAccountAnchorResponse {
-  int64 affected_rows = 1;
-}
-
-message GetAccountsCountRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-}
-
-message GetAccountsCountResponse {
-  int64 count = 1;
-}
-
-message SyncAccountBalancesRequest {
-  int64 account_id = 1 [(buf.validate.field).int64.gt = 0];
-}
-
-message SyncAccountBalancesResponse {}

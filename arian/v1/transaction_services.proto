@@ -16,15 +16,7 @@ service TransactionService {
   rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse);
   rpc UpdateTransaction(UpdateTransactionRequest) returns (UpdateTransactionResponse);
   rpc DeleteTransaction(DeleteTransactionRequest) returns (DeleteTransactionResponse);
-  rpc BulkDeleteTransactions(BulkDeleteTransactionsRequest) returns (BulkDeleteTransactionsResponse);
-  rpc CategorizeTransaction(CategorizeTransactionRequest) returns (CategorizeTransactionResponse);
-  rpc SearchTransactions(SearchTransactionsRequest) returns (SearchTransactionsResponse);
-  rpc GetTransactionsByAccount(GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
-  rpc GetUncategorizedTransactions(GetUncategorizedTransactionsRequest) returns (GetUncategorizedTransactionsResponse);
-  rpc BulkCategorizeTransactions(BulkCategorizeTransactionsRequest) returns (BulkCategorizeTransactionsResponse);
-  rpc GetTransactionCountByAccount(GetTransactionCountByAccountRequest) returns (GetTransactionCountByAccountResponse);
-  rpc FindCandidateTransactions(FindCandidateTransactionsRequest) returns (FindCandidateTransactionsResponse);
-  rpc IdentifyMerchant(IdentifyMerchantRequest) returns (IdentifyMerchantResponse);
+  rpc CategorizeTransactions(CategorizeTransactionsRequest) returns (CategorizeTransactionsResponse);
 }
 
 message ListTransactionsRequest {
@@ -41,12 +33,8 @@ message ListTransactionsRequest {
   optional google.type.Money amount_min = 8;
   optional google.type.Money amount_max = 9;
   optional TransactionDirection direction = 10 [(buf.validate.field).enum.defined_only = true];
-  repeated int64 account_ids = 11 [(buf.validate.field).repeated = {
-    max_items: 50
-  }];
-  repeated string categories = 12 [(buf.validate.field).repeated = {
-    max_items: 20
-  }];
+  repeated int64 account_ids = 11;
+  repeated string categories = 12;
   optional string merchant_query = 13 [(buf.validate.field).string.max_len = 200];
   optional string description_query = 14 [(buf.validate.field).string.max_len = 500];
   optional string currency = 15;
@@ -104,134 +92,23 @@ message UpdateTransactionRequest {
   optional double exchange_rate = 12;
 }
 
-message UpdateTransactionResponse {
-  Transaction transaction = 1;
-}
+message UpdateTransactionResponse {}
 
 message DeleteTransactionRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
-  int64 id = 2 [(buf.validate.field).int64.gt = 0];
+  repeated int64 ids = 2 [(buf.validate.field).repeated.min_items = 1];
 }
 
 message DeleteTransactionResponse {
   int64 affected_rows = 1;
 }
 
-message CategorizeTransactionRequest {
+message CategorizeTransactionsRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
-  int64 transaction_id = 2 [(buf.validate.field).int64.gt = 0];
+  repeated int64 transaction_ids = 2 [(buf.validate.field).repeated.min_items = 1];
   int64 category_id = 3;
 }
 
-message CategorizeTransactionResponse {
-  Transaction transaction = 1;
-}
-
-message SearchTransactionsRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  string query = 2 [(buf.validate.field).string = {
-    min_len: 1,
-    max_len: 500
-  }];
-  optional int64 account_id = 3 [(buf.validate.field).int64.gt = 0];
-  optional int64 category_id = 4;
-  optional int32 limit = 5 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 1000
-  }];
-  optional int32 offset = 6 [(buf.validate.field).int32.gte = 0];
-}
-
-message SearchTransactionsResponse {
-  repeated TransactionWithScore transactions = 1;
-  int64 total_count = 2;
-}
-
-message GetTransactionsByAccountRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
-  optional int32 limit = 3 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 1000
-  }];
-  optional int32 offset = 4 [(buf.validate.field).int32.gte = 0];
-  optional google.protobuf.Timestamp start_date = 5;
-  optional google.protobuf.Timestamp end_date = 6;
-  optional Cursor cursor = 7;
-}
-
-message GetTransactionsByAccountResponse {
-  repeated Transaction transactions = 1;
-  int64 total_count = 2;
-  optional Cursor next_cursor = 3;
-}
-
-message GetUncategorizedTransactionsRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  optional int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
-  optional int32 limit = 3 [(buf.validate.field).int32 = {
-    gte: 1,
-    lte: 1000
-  }];
-  optional int32 offset = 4 [(buf.validate.field).int32.gte = 0];
-  optional Cursor cursor = 5;
-}
-
-message GetUncategorizedTransactionsResponse {
-  repeated Transaction transactions = 1;
-  int64 total_count = 2;
-  optional Cursor next_cursor = 3;
-}
-
-message BulkCategorizeTransactionsRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  repeated int64 transaction_ids = 2 [(buf.validate.field).repeated = {
-    min_items: 1,
-    max_items: 100
-  }];
-  int64 category_id = 3;
-}
-
-message BulkCategorizeTransactionsResponse {
+message CategorizeTransactionsResponse {
   int64 affected_rows = 1;
-}
-
-message BulkDeleteTransactionsRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  repeated int64 transaction_ids = 2 [(buf.validate.field).repeated = {
-    min_items: 1,
-    max_items: 100
-  }];
-}
-
-message BulkDeleteTransactionsResponse {
-  int64 affected_rows = 1;
-}
-
-message GetTransactionCountByAccountRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-}
-
-message GetTransactionCountByAccountResponse {
-  repeated TransactionCountByAccount counts = 1;
-}
-
-message FindCandidateTransactionsRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  string merchant = 2;
-  google.protobuf.Timestamp purchase_date = 3;
-  google.type.Money total_amount = 4;
-}
-
-message FindCandidateTransactionsResponse {
-  repeated TransactionWithScore candidates = 1;
-}
-
-message IdentifyMerchantRequest {
-  string user_id = 1 [(buf.validate.field).string.uuid = true];
-  int64 transaction_id = 2 [(buf.validate.field).int64.gt = 0];
-}
-
-message IdentifyMerchantResponse {
-  string merchant = 1;
 }

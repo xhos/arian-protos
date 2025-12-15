@@ -9,11 +9,9 @@ import "google/protobuf/field_mask.proto";
 service CategoryService {
   rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse);
   rpc GetCategory(GetCategoryRequest) returns (GetCategoryResponse);
-  rpc GetCategoryBySlug(GetCategoryBySlugRequest) returns (GetCategoryBySlugResponse);
   rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
   rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse);
   rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse);
-  rpc ListCategorySlugs(ListCategorySlugsRequest) returns (ListCategorySlugsResponse);
 }
 
 message GetCategoryRequest {
@@ -41,9 +39,7 @@ message UpdateCategoryRequest {
   optional string color = 4;
 }
 
-message UpdateCategoryResponse {
-  Category category = 1;
-}
+message UpdateCategoryResponse {}
 
 message DeleteCategoryRequest {
   int64 id = 1 [(buf.validate.field).int64.gt = 0];
@@ -65,18 +61,4 @@ message ListCategoriesRequest {
 message ListCategoriesResponse {
   repeated Category categories = 1;
   int64 total_count = 2;
-}
-
-message GetCategoryBySlugRequest {
-  string slug = 1;
-}
-
-message GetCategoryBySlugResponse {
-  Category category = 1;
-}
-
-message ListCategorySlugsRequest {}
-
-message ListCategorySlugsResponse {
-  repeated string slugs = 1;
 }
