@@ -58,22 +58,27 @@ message GetTransactionResponse {
   Transaction transaction = 1;
 }
 
+message TransactionInput {
+  int64 account_id = 1 [(buf.validate.field).int64.gt = 0];
+  google.protobuf.Timestamp tx_date = 2;
+  google.type.Money tx_amount = 3;
+  TransactionDirection direction = 4;
+  optional string description = 5;
+  optional string merchant = 6;
+  optional string user_notes = 7;
+  optional int64 category_id = 8;
+  optional google.type.Money foreign_amount = 9;
+  optional double exchange_rate = 10;
+}
+
 message CreateTransactionRequest {
   string user_id = 1 [(buf.validate.field).string.uuid = true];
-  int64 account_id = 2 [(buf.validate.field).int64.gt = 0];
-  google.protobuf.Timestamp tx_date = 3;
-  google.type.Money tx_amount = 4;
-  TransactionDirection direction = 5;
-  optional string description = 6;
-  optional string merchant = 7;
-  optional string user_notes = 8;
-  optional int64 category_id = 9;
-  optional google.type.Money foreign_amount = 10;
-  optional double exchange_rate = 11;
+  repeated TransactionInput transactions = 2 [(buf.validate.field).repeated.min_items = 1];
 }
 
 message CreateTransactionResponse {
-  Transaction transaction = 1;
+  repeated Transaction transactions = 1;
+  int32 created_count = 2;
 }
 
 message UpdateTransactionRequest {
