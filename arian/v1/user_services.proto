@@ -35,7 +35,6 @@ message UpdateUserRequest {
   string id = 1;
   optional string email = 2;
   optional string display_name = 3;
-  optional int64 default_account_id = 4;
   optional string primary_currency = 5 [(buf.validate.field).string = {
     len: 3,
     pattern: "^[A-Z]{3}$"
