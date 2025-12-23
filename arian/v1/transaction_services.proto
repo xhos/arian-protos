@@ -95,6 +95,7 @@ message UpdateTransactionRequest {
   optional int64 category_id = 10;
   optional google.type.Money foreign_amount = 11;
   optional double exchange_rate = 12;
+  optional int64 account_id = 13 [(buf.validate.field).int64.gt = 0];
 }
 
 message UpdateTransactionResponse {}
