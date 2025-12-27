@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package arian.v1;
+
+import "arian/v1/receipt.proto";
+import "buf/validate/validate.proto";
+import "google/type/date.proto";
+
+service ReceiptService {
+  rpc UploadReceipt(UploadReceiptRequest) returns (UploadReceiptResponse);
+  rpc ListReceipts(ListReceiptsRequest) returns (ListReceiptsResponse);
+  rpc GetReceipt(GetReceiptRequest) returns (GetReceiptResponse);
+  rpc UpdateReceipt(UpdateReceiptRequest) returns (UpdateReceiptResponse);
+  rpc DeleteReceipt(DeleteReceiptRequest) returns (DeleteReceiptResponse);
+}
+
+message UploadReceiptRequest {
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  bytes image_data = 2 [(buf.validate.field).bytes = {
+    min_len: 1,
+    max_len: 20971520
+  }];
+  string content_type = 3 [(buf.validate.field).string = {
+    in: ["image/jpeg", "image/png", "image/webp", "image/heic"]
+  }];
+}
+
+message UploadReceiptResponse {
+  Receipt receipt = 1;
+}
+
+message ListReceiptsRequest {
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  optional int32 limit = 2 [(buf.validate.field).int32 = {gte: 1, lte: 100}];
+  optional int32 offset = 3 [(buf.validate.field).int32.gte = 0];
+  optional ReceiptStatus status = 4;
+  optional bool unlinked_only = 5;
+  optional google.type.Date start_date = 6;
+  optional google.type.Date end_date = 7;
+}
+
+message ListReceiptsResponse {
+  repeated Receipt receipts = 1;
+  int64 total_count = 2;
+}
+
+message GetReceiptRequest {
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message GetReceiptResponse {
+  Receipt receipt = 1;
+  repeated ReceiptLinkCandidate link_candidates = 2;
+}
+
+message UpdateReceiptRequest {
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
+  optional int64 transaction_id = 3;
+  repeated ReceiptItemInput items = 4;
+}
+
+message ReceiptItemInput {
+  int64 id = 1;
+  string raw_name = 2;
+  optional string name = 3;
+  double quantity = 4;
+  int64 unit_price_cents = 5;
+  optional int64 category_id = 6;
+}
+
+message UpdateReceiptResponse {
+  Receipt receipt = 1;
+}
+
+message DeleteReceiptRequest {
+  string user_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message DeleteReceiptResponse {}

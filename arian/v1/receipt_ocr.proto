@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package arian.v1;
+
+service ReceiptOCRService {
+  rpc ParseReceipt(ParseReceiptRequest) returns (ParseReceiptResponse);
+  rpc Health(HealthRequest) returns (HealthResponse);
+}
+
+message ParseReceiptRequest {
+  bytes image_data = 1;
+  string content_type = 2;
+}
+
+message ParseReceiptResponse {
+  bool success = 1;
+  optional ParsedReceipt data = 2;
+  optional OCRError error = 3;
+}
+
+message ParsedReceipt {
+  optional string merchant = 1;
+  optional string date = 2;
+  optional string currency = 3;
+  repeated ParsedItem items = 4;
+  optional double subtotal = 5;
+  optional double tax = 6;
+  optional double total = 7;
+  float confidence = 8;
+}
+
+message ParsedItem {
+  string raw = 1;
+  optional string name = 2;
+  double qty = 3;
+  double unit_price = 4;
+}
+
+message OCRError {
+  OCRErrorCode code = 1;
+  string message = 2;
+}
+
+enum OCRErrorCode {
+  OCR_ERROR_UNSPECIFIED = 0;
+  OCR_ERROR_INVALID_IMAGE = 1;
+  OCR_ERROR_PARSE_FAILED = 2;
+  OCR_ERROR_MODEL_ERROR = 3;
+  OCR_ERROR_TIMEOUT = 4;
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+  string model = 2;
+  bool gpu_available = 3;
+}

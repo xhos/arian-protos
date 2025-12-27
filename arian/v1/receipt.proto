@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package arian.v1;
+
+import "arian/v1/category.proto";
+import "google/protobuf/timestamp.proto";
+import "google/type/date.proto";
+import "google/type/money.proto";
+
+enum ReceiptStatus {
+  RECEIPT_STATUS_UNSPECIFIED = 0;
+  RECEIPT_STATUS_PENDING = 1;
+  RECEIPT_STATUS_PARSED = 2;
+  RECEIPT_STATUS_LINKED = 3;
+  RECEIPT_STATUS_FAILED = 4;
+}
+
+message ReceiptItem {
+  int64 id = 1;
+  int64 receipt_id = 2;
+  string raw_name = 3;
+  optional string name = 4;
+  double quantity = 5;
+  google.type.Money unit_price = 6;
+  optional int64 category_id = 7;
+  optional Category category = 8;
+  int32 sort_order = 9;
+}
+
+message Receipt {
+  int64 id = 1;
+  string user_id = 2;
+  optional int64 transaction_id = 3;
+  string image_path = 4;
+  optional string merchant = 5;
+  optional google.type.Date receipt_date = 6;
+  optional string currency = 7;
+  optional google.type.Money subtotal = 8;
+  optional google.type.Money tax = 9;
+  optional google.type.Money total = 10;
+  optional float confidence = 11;
+  ReceiptStatus status = 12;
+  repeated ReceiptItem items = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
+  optional string transaction_merchant = 16;
+  optional google.type.Money transaction_amount = 17;
+}
+
+message ReceiptLinkCandidate {
+  int64 transaction_id = 1;
+  string merchant = 2;
+  google.type.Money amount = 3;
+  google.protobuf.Timestamp tx_date = 4;
+  int64 account_id = 5;
+  string account_name = 6;
+  int32 date_diff_days = 7;
+  int64 amount_diff_cents = 8;
+}
