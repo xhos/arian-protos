@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package arian.v1;
+package null.v1;
 
-import "arian/v1/backup.proto";
+import "null/v1/backup.proto";
 
 service BackupService {
   rpc ExportBackup(ExportBackupRequest) returns (ExportBackupResponse);

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package arian.v1;
+package null.v1;
 
-import "arian/v1/category.proto";
+import "null/v1/category.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";

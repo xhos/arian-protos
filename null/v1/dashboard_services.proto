@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package arian.v1;
+package null.v1;
 
-import "arian/v1/account.proto";
-import "arian/v1/category.proto";
-import "arian/v1/dashboard.proto";
-import "arian/v1/enums.proto";
+import "null/v1/account.proto";
+import "null/v1/category.proto";
+import "null/v1/dashboard.proto";
+import "null/v1/enums.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
 

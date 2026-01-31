@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package arian.v1;
+package null.v1;
 
 import "google/type/money.proto";
 import "buf/validate/validate.proto";

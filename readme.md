@@ -1,6 +1,6 @@
-# arian-protos
+# null-protos
 
-here lie `.proto` files used across arian for gRPC communication.
+here lie `.proto` files used across null for gRPC communication.
 
 ## development
 
@@ -11,8 +11,8 @@ using git submodules is, in my opinion, the cleanest way to add these to a proje
 to add a ./proto folder with the submodule in a new project, run:
 
 ```shell
-git submodule add -b main git@github.com:xhos/arian-protos.git proto
-git commit -m "Add arian-protos as submodule at proto/"
+git submodule add -b main git@github.com:xhos/null-protos.git proto
+git commit -m "Add null-protos as submodule at proto/"
 ```
 
 then to generate code you would add a `buf.gen.yaml` that looks something like this:
