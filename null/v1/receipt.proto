@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package null.v1;
 
-import "null/v1/category.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/date.proto";
 import "google/type/money.proto";
@@ -22,9 +21,7 @@ message ReceiptItem {
   optional string name = 4;
   double quantity = 5;
   google.type.Money unit_price = 6;
-  optional int64 category_id = 7;
-  optional Category category = 8;
-  int32 sort_order = 9;
+  int32 sort_order = 7;
 }
 
 message Receipt {

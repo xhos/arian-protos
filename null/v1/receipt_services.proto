@@ -67,7 +67,6 @@ message ReceiptItemInput {
   optional string name = 3;
   double quantity = 4;
   int64 unit_price_cents = 5;
-  optional int64 category_id = 6;
 }
 
 message UpdateReceiptResponse {
