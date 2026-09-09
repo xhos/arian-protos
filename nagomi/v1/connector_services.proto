@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package null.v1;
+package nagomi.v1;
 
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
-// internal-only, consumed by null-connector
+// internal-only, consumed by nagomi-connector
 service ConnectorService {
   rpc ListSyncJobs(ListSyncJobsRequest) returns (ListSyncJobsResponse);
   rpc CompleteSyncJob(CompleteSyncJobRequest) returns (CompleteSyncJobResponse);

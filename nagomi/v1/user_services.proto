@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package null.v1;
+package nagomi.v1;
 
-import "null/v1/user.proto";
+import "nagomi/v1/user.proto";
 import "buf/validate/validate.proto";
 
 // manage user profiles and preferences

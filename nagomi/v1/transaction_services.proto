@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package null.v1;
+package nagomi.v1;
 
-import "null/v1/common.proto";
-import "null/v1/enums.proto";
+import "nagomi/v1/common.proto";
+import "nagomi/v1/enums.proto";
 import "google/type/money.proto";
-import "null/v1/transaction.proto";
+import "nagomi/v1/transaction.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";

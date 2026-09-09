@@ -6,31 +6,31 @@ deps:
 
 modules:
   - path: .
-    name: buf.build/xhos/null-protos
+    name: buf.build/xhos/nagomi-protos
 
 lint:
   use:
     - STANDARD
   ignore_only:
     ENUM_VALUE_PREFIX:
-      - null/v1/enums.proto
-      - null/v1/receipt_ocr.proto
+      - nagomi/v1/enums.proto
+      - nagomi/v1/receipt_ocr.proto
 
     RPC_RESPONSE_STANDARD_NAME:
-      - null/v1/user_services.proto
-      - null/v1/account_services.proto
-      - null/v1/transaction_services.proto
-      - null/v1/category_services.proto
-      - null/v1/dashboard_services.proto
-      - null/v1/receipt_services.proto
+      - nagomi/v1/user_services.proto
+      - nagomi/v1/account_services.proto
+      - nagomi/v1/transaction_services.proto
+      - nagomi/v1/category_services.proto
+      - nagomi/v1/dashboard_services.proto
+      - nagomi/v1/receipt_services.proto
 
     RPC_REQUEST_RESPONSE_UNIQUE:
-      - null/v1/user_services.proto
-      - null/v1/account_services.proto
-      - null/v1/transaction_services.proto
-      - null/v1/category_services.proto
-      - null/v1/dashboard_services.proto
-      - null/v1/receipt_services.proto
+      - nagomi/v1/user_services.proto
+      - nagomi/v1/account_services.proto
+      - nagomi/v1/transaction_services.proto
+      - nagomi/v1/category_services.proto
+      - nagomi/v1/dashboard_services.proto
+      - nagomi/v1/receipt_services.proto
 
 breaking:
   use:

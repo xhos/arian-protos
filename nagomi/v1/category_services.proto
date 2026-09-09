@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package null.v1;
+package nagomi.v1;
 
-import "null/v1/category.proto";
+import "nagomi/v1/category.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/field_mask.proto";
 

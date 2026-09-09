@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package null.v1;
+package nagomi.v1;
 
-import "null/v1/account.proto";
-import "null/v1/category.proto";
+import "nagomi/v1/account.proto";
+import "nagomi/v1/category.proto";
 import "google/type/money.proto";
-import "null/v1/dashboard.proto";
-import "null/v1/enums.proto";
+import "nagomi/v1/dashboard.proto";
+import "nagomi/v1/enums.proto";
 import "google/type/date.proto";
 
 // analytics and reporting
